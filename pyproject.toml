@@ -1,0 +1,43 @@
+[project]
+name = "urca"
+version = "0.1.0"
+dependencies = [
+  "commitizen",
+  "numpy",
+  "pytest",
+  "pytest-xdist",
+  "sphinx",
+  "sphinx-rtd-theme",
+  "sphinxcontrib-bibtex",
+  "ruff",
+]
+authors = [
+  { name="Alessandro De Piccoli", email="alessandro.depiccoli@unimi.it" },
+]
+maintainers = [
+  { name="Alessandro De Piccoli", email="alessandro.depiccoli@unimi.it" },
+]
+description = "Unified Resource for Cryptographic Arrays"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Topic :: Security :: Cryptography",
+]
+
+[project.urls]
+Homepage = "https://github.com/ale-depi/urca"
+Issues = "https://github.com/ale-depi/urca/issues"
+
+[tool.ruff]
+line-length = 100
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "$version"
+version_scheme = "pep440"
+version_provider = "pep621"
+update_changelog_on_bump = true
+
