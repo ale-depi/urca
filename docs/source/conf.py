@@ -27,7 +27,6 @@ autodoc_default_options = {
     'show-inheritance': True,
     'undoc-members': True,
 }
-
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
 

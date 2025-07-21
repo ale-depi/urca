@@ -8,7 +8,6 @@ dependencies = [
   "pytest-xdist",
   "sphinx",
   "sphinx-rtd-theme",
-  "sphinxcontrib-bibtex",
   "ruff",
 ]
 authors = [
