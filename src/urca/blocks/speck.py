@@ -33,9 +33,9 @@ class Speck(Block):
 
         Parameters
         ----------
-        texts : numpy.ndarray
+        texts : np.ndarray
             plaintexts
-        keys : numpy.ndarray
+        keys : np.ndarray
             keys
         """
         texts[:, 0] = texts[:, 0] << self.alphac | texts[:, 0] >> self.alpha
@@ -51,7 +51,7 @@ class Speck(Block):
 
         Parameters
         ----------
-        keys : numpy.ndarray
+        keys : np.ndarray
             keys
         round_number : int
             current round
@@ -66,9 +66,9 @@ class Speck(Block):
 
         Parameters
         ----------
-        texts : numpy.ndarray
+        texts : np.ndarray
             plaintexts
-        keys : numpy.ndarray
+        keys : np.ndarray
             keys
         current_round : int
             current round
@@ -84,9 +84,9 @@ class Speck(Block):
 
         Parameters
         ----------
-        texts : numpy.ndarray
+        texts : np.ndarray
             ciphertexts
-        keys : numpy.ndarray
+        keys : np.ndarray
             keys
         """
         texts[:, 1] ^= texts[:, 0]
@@ -102,7 +102,7 @@ class Speck(Block):
 
         Parameters
         ----------
-        keys : numpy.ndarray
+        keys : np.ndarray
             keys
         round_number : int
             current round
@@ -117,9 +117,9 @@ class Speck(Block):
 
         Parameters
         ----------
-        texts : numpy.ndarray
+        texts : np.ndarray
             ciphertexts
-        keys : numpy.ndarray
+        keys : np.ndarray
             keys
         current_round : int
             current round

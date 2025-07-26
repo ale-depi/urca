@@ -34,11 +34,11 @@ They represent three important cases.
 
 #. Speck is word oriented and has not corner cases. Its implementation is
    suitable for any word size, unless constraints on parameters are met.
-#. PRESENT is a bit oriented cipher. Note that there is a first XOR with the
-   key, meaning that the first round is different from the other ones.
-   Moreover, in order to be compliant with the reference implementation, some
-   constraints on the parameters should be met (e.g. the key must be 5/4 or 8/4
-   of the text).
+#. PRESENT is a bit oriented cipher. Note that there is a final XOR with the
+   key, meaning that the last round is different from the other ones. Moreover,
+   in order to be compliant with the reference implementation, some constraints
+   on the parameters should be met (e.g. the key must be 5/4 or 8/4 of the
+   text).
 #. AES has a declared different last round. It lacks of the mixcolumn
    operation.
 
@@ -74,6 +74,7 @@ number of rounds for encryption/decryption.
    :maxdepth: 1
    :caption: API
 
+   blocks/present
    blocks/speck
    utilities
 
