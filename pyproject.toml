@@ -27,8 +27,10 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ale-depi/urca"
+Documentation = "https://ale-depi.github.io/urca/"
+Changelog = "https://github.com/ale-depi/urca/blob/main/CHANGELOG.md"
 Issues = "https://github.com/ale-depi/urca/issues"
+Repository = "https://github.com/ale-depi/urca"
 
 [tool.ruff]
 line-length = 100
