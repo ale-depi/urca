@@ -27,4 +27,4 @@ bits, i.e. :math:`t = 4\tau,\ \tau \in \mathbb{N}`.
 
 .. _implementation:
 
-.. automodule:: urca.blocks.speck
+.. automodule:: urca.cpu.blocks.speck

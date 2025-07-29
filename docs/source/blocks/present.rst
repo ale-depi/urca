@@ -14,4 +14,4 @@ essential one text size. Based on that, two key sizes are possible.
 
 .. _implementation:
 
-.. automodule:: urca.blocks.present
+.. automodule:: urca.cpu.blocks.present
