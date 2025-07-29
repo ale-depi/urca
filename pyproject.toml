@@ -1,15 +1,7 @@
 [project]
 name = "urca"
 version = "0.1.0"
-dependencies = [
-  "commitizen",
-  "numpy",
-  "pytest",
-  "pytest-xdist",
-  "sphinx",
-  "sphinx-rtd-theme",
-  "ruff",
-]
+dependencies = ["numpy"]
 authors = [
   { name="Alessandro De Piccoli", email="alessandro.depiccoli@unimi.it" },
 ]
@@ -24,6 +16,16 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
   "Topic :: Security :: Cryptography",
+]
+
+[project.optional-dependencies]
+dev = [
+  "commitizen",
+  "pytest",
+  "pytest-xdist",
+  "sphinx",
+  "sphinx-rtd-theme",
+  "ruff",
 ]
 
 [project.urls]
