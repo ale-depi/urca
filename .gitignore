@@ -1,7 +1,9 @@
 *.egg-info
 
+.pytest_cache
+
 __pycache__
 
+build
 docs/build/
-
 venv
