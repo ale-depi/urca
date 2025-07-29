@@ -7,8 +7,8 @@ Implementation [BSS2015]_
 
 import numpy as np
 
-from urca import utilities
-from urca.block import Block
+from urca.cpu import utilities
+from urca.cpu.block import Block
 
 
 class Speck(Block):

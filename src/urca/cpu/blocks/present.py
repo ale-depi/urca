@@ -7,7 +7,7 @@ Implementation [BKL2007]_
 
 import numpy as np
 
-from urca.block import Block
+from urca.cpu.block import Block
 
 
 class Present(Block):

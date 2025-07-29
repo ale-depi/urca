@@ -2,7 +2,7 @@
 
 import numpy as np
 import pytest
-from urca.blocks.speck import Speck
+from urca.cpu.blocks.speck import Speck
 
 
 @pytest.mark.parametrize(
