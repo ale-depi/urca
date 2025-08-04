@@ -77,13 +77,24 @@ number of rounds for encryption/decryption.
 
 .. toctree::
    :maxdepth: 1
+   :caption: Guide
+   :hidden:
+
+   guide/user
+   guide/developer
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Notes
+   :hidden:
+
+   notes/blocks/index
+   notes/references
+
+.. toctree::
+   :maxdepth: 2
    :caption: API
+   :hidden:
 
-   blocks/present
-   blocks/speck
-   utilities
-
-Bibliography
-------------
-
-* :ref:`Papers <papers>`
+   api/blocks/index
+   api/utilities

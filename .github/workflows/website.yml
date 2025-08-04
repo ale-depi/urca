@@ -27,7 +27,6 @@ jobs:
 
       - run: pip install .[dev]
       - run: sphinx-build -b html docs/source docs/build
-      - run: sphinx-build -b html docs/source docs/build
 
       - uses: actions/upload-pages-artifact@v3
         with:
