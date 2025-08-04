@@ -1,4 +1,4 @@
-PRESENT
+Present
 =======
 
 :Authors: Andrey Bogdanov, Lars R Knudsen, Gregor Leander, Christof Paar, Axel
