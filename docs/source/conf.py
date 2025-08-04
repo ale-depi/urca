@@ -26,7 +26,7 @@ autodoc_default_options = {
     'members': True,
     'module-names': True,
     'show-inheritance': True,
-    'undoc-members': True,
+    'member-order': 'groupwise',
 }
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
@@ -36,3 +36,5 @@ napoleon_numpy_docstring = True
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "sphinx_rtd_theme"
+html_static_path = ["_static"]
+html_favicon = "_static/logo.svg"

@@ -3,6 +3,11 @@ URCA documentation
 
 Pages for the Unified Resource for Cryptographic Arrays project.
 
+.. figure:: _static/logo.svg
+   :figwidth: 128px
+
+   (Official logo.)
+
 Motivation
 ----------
 

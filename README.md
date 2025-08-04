@@ -2,6 +2,8 @@
 
 **U**nified **R**esource for **C**ryptographic **A**rrays
 
+![Logo](docs/_static/logo.svg)
+
 ## Getting started
 
 To have fun with URCA locally, try the following steps.
