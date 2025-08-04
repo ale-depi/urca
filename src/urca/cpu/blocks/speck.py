@@ -1,10 +1,3 @@
-"""
-Speck
-=====
-
-Implementation [BSS2015]_
-"""
-
 import numpy as np
 
 from urca.cpu import utilities

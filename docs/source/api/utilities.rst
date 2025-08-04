@@ -1,4 +1,4 @@
-utilities.py
-============
+Utilities
+=========
 
 .. automodule:: urca.cpu.utilities

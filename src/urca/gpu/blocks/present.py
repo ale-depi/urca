@@ -1,10 +1,3 @@
-"""
-PRESENT
-=======
-
-Implementation [BKL2007]_
-"""
-
 import cupy as cp
 
 from urca.gpu.block import Block

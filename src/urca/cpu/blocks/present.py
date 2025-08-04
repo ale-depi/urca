@@ -1,10 +1,3 @@
-"""
-PRESENT
-=======
-
-Implementation [BKL2007]_
-"""
-
 import numpy as np
 
 from urca.cpu.block import Block

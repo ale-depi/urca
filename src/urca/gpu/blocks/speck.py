@@ -1,10 +1,3 @@
-"""
-Speck
-=====
-
-Implementation [BSS2015]_
-"""
-
 import cupy as cp
 
 from urca.gpu import utilities

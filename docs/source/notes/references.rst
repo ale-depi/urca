@@ -1,12 +1,10 @@
-.. _papers:
+References
+==========
 
-Papers
-======
+:ref:`B <toc-b>`
+:ref:`D <toc-d>`
 
-:ref:`B <papers-b>`
-:ref:`D <papers-d>`
-
-.. _papers-b:
+.. _toc-b:
 
 **B**
 
@@ -21,7 +19,7 @@ Papers
   Louis Wingers | **SIMON and SPECK: Block Ciphers for the Internet of Things**
   | 2015 | https://eprint.iacr.org/2015/585.pdf
 
-.. _papers-d:
+.. _toc-d:
 
 **D**
 

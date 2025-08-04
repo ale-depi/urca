@@ -1,10 +1,3 @@
-"""
-Utilities
-=========
-
-These are the common functions needed across all ciphers.
-"""
-
 import math
 import cupy as cp
 
