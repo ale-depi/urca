@@ -8,7 +8,7 @@ from urca.cpu.blocks.speck import Speck
 
 @pytest.mark.parametrize(
     "text_size, key_size, n_rounds, alpha, beta, plaintexts, keys, ciphertexts",
-    [
+    (
         (
             32,
             64,
@@ -109,7 +109,7 @@ from urca.cpu.blocks.speck import Speck
             ((0x1F1E1D1C1B1A1918, 0x1716151413121110, 0x0F0E0D0C0B0A0908, 0x0706050403020100),),
             ((0x4109010405C0F53E, 0x4EEEB48D9C188F43),),
         ),
-    ],
+    ),
 )
 def test_speck(text_size, key_size, n_rounds, alpha, beta, plaintexts, keys, ciphertexts):
     speck = Speck(text_size, key_size, alpha, beta)

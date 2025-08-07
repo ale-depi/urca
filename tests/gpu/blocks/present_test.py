@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from urca.gpu.blocks.present import Present
-from urca.gpu.utilities import get_bits
+from urca.common import get_bits
 
 
 @pytest.mark.parametrize(
@@ -15,14 +15,24 @@ from urca.gpu.utilities import get_bits
             64,
             80,
             31,
-            (0x0000000000000000, 0x0000000000000000, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF),
+            (
+                0x0000000000000000,
+                0x0000000000000000,
+                0xFFFFFFFFFFFFFFFF,
+                0xFFFFFFFFFFFFFFFF,
+            ),
             (
                 0x00000000000000000000,
                 0xFFFFFFFFFFFFFFFFFFFF,
                 0x00000000000000000000,
                 0xFFFFFFFFFFFFFFFFFFFF,
             ),
-            (0x5579C1387B228445, 0xE72C46C0F5945049, 0xA112FFC72F68417B, 0x3333DCD3213210D2),
+            (
+                0x5579C1387B228445,
+                0xE72C46C0F5945049,
+                0xA112FFC72F68417B,
+                0x3333DCD3213210D2,
+            ),
         ),
     ],
 )

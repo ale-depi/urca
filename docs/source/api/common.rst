@@ -1,0 +1,4 @@
+Common
+======
+
+.. automodule:: urca.common

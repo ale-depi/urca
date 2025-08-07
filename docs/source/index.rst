@@ -32,8 +32,8 @@ cipher.
 
 However, it is frequent to have some changes in the first round or even in the
 last one. When this occurs in some design, it is important to say what is and
-what is not a round. Think about Speck [BSS2015]_, PRESENT [BKL2007]_ and AES
-[DR2003]_.
+what is not a round. Think about Speck [simon-speck-2015]_, PRESENT
+[present-2007]_ and AES [aes-2003]_.
 
 They represent three important cases.
 
@@ -97,4 +97,5 @@ number of rounds for encryption/decryption.
    :hidden:
 
    api/blocks/index
+   api/common
    api/utilities

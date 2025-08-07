@@ -4,26 +4,36 @@ import numpy as np
 import pytest
 
 from urca.cpu.blocks.present import Present
-from urca.cpu.utilities import get_bits
+from urca.common import get_bits
 
 
 @pytest.mark.parametrize(
     "text_size, key_size, n_rounds, plaintexts, keys, ciphertexts",
-    [
+    (
         (
             64,
             80,
             31,
-            (0x0000000000000000, 0x0000000000000000, 0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF),
+            (
+                0x0000000000000000,
+                0x0000000000000000,
+                0xFFFFFFFFFFFFFFFF,
+                0xFFFFFFFFFFFFFFFF,
+            ),
             (
                 0x00000000000000000000,
                 0xFFFFFFFFFFFFFFFFFFFF,
                 0x00000000000000000000,
                 0xFFFFFFFFFFFFFFFFFFFF,
             ),
-            (0x5579C1387B228445, 0xE72C46C0F5945049, 0xA112FFC72F68417B, 0x3333DCD3213210D2),
+            (
+                0x5579C1387B228445,
+                0xE72C46C0F5945049,
+                0xA112FFC72F68417B,
+                0x3333DCD3213210D2,
+            ),
         ),
-    ],
+    ),
 )
 def test_present(text_size, key_size, n_rounds, plaintexts, keys, ciphertexts):
     present = Present(text_size, key_size)

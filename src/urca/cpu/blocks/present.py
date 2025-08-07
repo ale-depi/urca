@@ -55,9 +55,11 @@ class Present(Block):
         self.word_size = 1
         self.n_text_words = text_size
         self.n_key_words = key_size
-        self.permutation = tuple((i // 4) + 16 * (i % 4) for i in range(self.text_size))
+        self.permutation = tuple(
+            (i // 4) + (self.text_size // 4) * (i % 4) for i in range(self.text_size)
+        )
         self.rotation_amount = 61
-        """The amount of the rotation in the key schedule."""
+        # |--- The rotation amount in the key schedule.
         self.key_bits_in_box = self.keysize_to_keybitsinsbox[key_size]
         self.counter_low = self.keysize_to_counterlow[key_size]
         self.counter_high = self.counter_low + 5
@@ -78,9 +80,7 @@ class Present(Block):
         round_counter = np.array(tuple(map(int, f"{round_number + 1:05b}")), dtype=self.word_type)
         keys[:, self.counter_low : self.counter_high] ^= round_counter
 
-    def encrypt(
-        self, texts: np.ndarray, keys: np.ndarray, current_round: int, n_rounds: int
-    ) -> None:
+    def encrypt(self, texts: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         """Encrypt in-place.
 
         Parameters
@@ -89,12 +89,12 @@ class Present(Block):
             plaintexts
         keys : np.ndarray
             keys
-        current_round : int
-            current round
+        state_index : int
+            index of the current state
         n_rounds : int
             number of encryption rounds
         """
-        for round_number in range(current_round, current_round + n_rounds):
+        for round_number in range(state_index, state_index + n_rounds):
             # addRoundKey(STATE, K_i)
             texts ^= keys[:, : self.text_size]
             # sBoxLayer(STATE)
@@ -121,9 +121,7 @@ class Present(Block):
         keys[:, : self.key_bits_in_box] = sbox_output[:, : self.key_bits_in_box]
         keys[:, :] = np.roll(keys, self.rotation_amount, axis=1)
 
-    def decrypt(
-        self, texts: np.ndarray, keys: np.ndarray, current_round: int, n_rounds: int
-    ) -> None:
+    def decrypt(self, texts: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         """Dencrypt in-place.
 
         Parameters
@@ -132,13 +130,13 @@ class Present(Block):
             ciphertexts
         keys : np.ndarray
             keys
-        current_round : int
-            current round
+        state_index : int
+            index of the current state
         n_rounds : int
             number of decryption rounds
         """
         texts ^= keys[:, : self.text_size]
-        for round_number in reversed(range(current_round - n_rounds, current_round)):
+        for round_number in reversed(range(state_index - n_rounds, state_index)):
             self.revert_keys(keys, round_number)
             texts[:, np.arange(self.text_size)] = texts[:, self.permutation]
             texts[:, :] = np.unpackbits(self.reversed_sbox[np.packbits(texts, axis=1)], axis=1)

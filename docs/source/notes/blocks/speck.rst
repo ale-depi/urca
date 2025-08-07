@@ -1,13 +1,9 @@
 Speck
 =====
 
-:Authors: Ray Beaulieu, Douglas Shors, Jason Smith, Stefan Treatman-Clark, Bryan
-   Weeks, Louis Wingers
-:Year: 2015
-:Reference: https://eprint.iacr.org/2015/585.pdf
-
-The Speck block cipher has reference configurations suitable for many sizes.
-Based on those, its generalization can be done as follows:
+The Speck block cipher [simon-speck-2015]_ has reference configurations
+suitable for many sizes. Based on those, its generalization can be done as
+follows:
 
 .. math::
 

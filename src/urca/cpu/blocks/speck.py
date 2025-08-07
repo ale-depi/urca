@@ -52,9 +52,7 @@ class Speck(Block):
         self.encrypt_function(keys[:, (self.n_key_words - 2) : self.n_key_words], round_number)
         keys[:, : (self.n_key_words - 1)] = np.roll(keys[:, : (self.n_key_words - 1)], 1, axis=1)
 
-    def encrypt(
-        self, texts: np.ndarray, keys: np.ndarray, current_round: int, n_rounds: int
-    ) -> None:
+    def encrypt(self, texts: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         """Encrypt in-place.
 
         Parameters
@@ -63,12 +61,12 @@ class Speck(Block):
             plaintexts
         keys : np.ndarray
             keys
-        current_round : int
-            current round
+        state_index : int
+            index of the current state
         n_rounds : int
             number of encryption rounds
         """
-        for round_number in range(current_round, current_round + n_rounds):
+        for round_number in range(state_index, state_index + n_rounds):
             self.encrypt_function(texts, keys[:, -1])
             self.update_keys(keys, round_number)
 
@@ -103,9 +101,7 @@ class Speck(Block):
         keys[:, : (self.n_key_words - 1)] = np.roll(keys[:, : (self.n_key_words - 1)], -1, axis=1)
         self.decrypt_function(keys[:, (self.n_key_words - 2) : self.n_key_words], round_number)
 
-    def decrypt(
-        self, texts: np.ndarray, keys: np.ndarray, current_round: int, n_rounds: int
-    ) -> None:
+    def decrypt(self, texts: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         """Dencrypt in-place.
 
         Parameters
@@ -114,11 +110,11 @@ class Speck(Block):
             ciphertexts
         keys : np.ndarray
             keys
-        current_round : int
-            current round
+        state_index : int
+            index of the current state
         n_rounds : int
             number of decryption rounds
         """
-        for round_number in reversed(range(current_round - n_rounds, current_round)):
+        for round_number in reversed(range(state_index - n_rounds, state_index)):
             self.revert_keys(keys, round_number)
             self.decrypt_function(texts, keys[:, -1])

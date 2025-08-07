@@ -10,13 +10,9 @@ class Block(ABC):
         self.key_size = key_size
 
     @abstractmethod
-    def encrypt(
-        self, texts: np.ndarray, keys: np.ndarray, current_round: int, n_rounds: int
-    ) -> None:
+    def encrypt(self, texts: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         pass
 
     @abstractmethod
-    def decrypt(
-        self, texts: np.ndarray, keys: np.ndarray, current_round: int, n_rounds: int
-    ) -> None:
+    def decrypt(self, texts: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         pass

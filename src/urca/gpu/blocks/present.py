@@ -80,9 +80,7 @@ class Present(Block):
         round_counter = cp.array(tuple(map(int, f"{round_number + 1:05b}")), dtype=self.word_type)
         keys[:, self.counter_low : self.counter_high] ^= round_counter
 
-    def encrypt(
-        self, texts: cp.ndarray, keys: cp.ndarray, current_round: int, n_rounds: int
-    ) -> None:
+    def encrypt(self, texts: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
         """Encrypt in-place.
 
         Parameters
@@ -91,12 +89,12 @@ class Present(Block):
             plaintexts
         keys : cp.ndarray
             keys
-        current_round : int
+        state_index : int
             current round
         n_rounds : int
             number of encryption rounds
         """
-        for round_number in range(current_round, current_round + n_rounds):
+        for round_number in range(state_index, state_index + n_rounds):
             # addRoundKey(STATE, K_i)
             texts ^= keys[:, : self.text_size]
             # sBoxLayer(STATE)
@@ -124,9 +122,7 @@ class Present(Block):
         keys[:, : self.key_bits_in_box] = sbox_output[:, : self.key_bits_in_box]
         keys[:, :] = cp.roll(keys, self.rotation_amount, axis=1)
 
-    def decrypt(
-        self, texts: cp.ndarray, keys: cp.ndarray, current_round: int, n_rounds: int
-    ) -> None:
+    def decrypt(self, texts: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
         """Dencrypt in-place.
 
         Parameters
@@ -141,7 +137,7 @@ class Present(Block):
             number of decryption rounds
         """
         texts ^= keys[:, : self.text_size]
-        for round_number in reversed(range(current_round - n_rounds, current_round)):
+        for round_number in reversed(range(state_index - n_rounds, state_index)):
             self.revert_keys(keys, round_number)
             texts[:, cp.arange(self.text_size)] = texts[:, self.permutation]
             sbox_output = cp.unpackbits(self.reversed_sbox[cp.packbits(texts)])
