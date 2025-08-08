@@ -9,10 +9,28 @@ class Block(ABC):
         self.text_size = text_size
         self.key_size = key_size
 
+    @property
     @abstractmethod
-    def encrypt(self, texts: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
-        pass
+    def word_size(self) -> int: ...
+
+    @property
+    @abstractmethod
+    def word_type(self) -> cp.dtype: ...
+
+    @property
+    @abstractmethod
+    def n_text_words(self) -> int: ...
+
+    @property
+    @abstractmethod
+    def n_key_words(self) -> int: ...
 
     @abstractmethod
-    def decrypt(self, texts: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
-        pass
+    def encrypt(
+        self, texts: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int
+    ) -> None: ...
+
+    @abstractmethod
+    def decrypt(
+        self, texts: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int
+    ) -> None: ...

@@ -59,10 +59,26 @@ class Present(Block):
         self.n_key_words = key_size
         self.permutation = tuple((i // 4) + 16 * (i % 4) for i in range(self.text_size))
         self.rotation_amount = 61
-        """The amount of the rotation in the key schedule."""
+        # |--- The rotation amount in the key schedule.
         self.key_bits_in_box = self.keysize_to_keybitsinsbox[key_size]
         self.counter_low = self.keysize_to_counterlow[key_size]
         self.counter_high = self.counter_low + 5
+
+    @property
+    def word_size(self) -> int:
+        return 1
+
+    @property
+    def word_type(self) -> cp.dtype:
+        return cp.uint8
+
+    @property
+    def n_text_words(self) -> int:
+        return self.text_size
+
+    @property
+    def n_key_words(self) -> int:
+        return self.key_size
 
     def update_keys(self, keys: cp.ndarray, round_number: int) -> None:
         """Update the keys in-place.

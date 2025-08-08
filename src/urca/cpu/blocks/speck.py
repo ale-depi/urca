@@ -13,13 +13,25 @@ class Speck(Block):
         beta: int = 2,
     ) -> None:
         super().__init__(text_size, key_size)
-        self.word_size = self.text_size // 2
-        self.word_type = utilities.get_dtype(self.word_size)
-        self.n_text_words = self.text_size // self.word_size
-        self.n_key_words = self.key_size // self.word_size
         self.mask = np.sum(2 ** np.arange(self.word_size), dtype=self.word_type)
         self.alpha, self.beta = alpha, beta
         self.alphac, self.betac = self.word_size - self.alpha, self.word_size - self.beta
+
+    @property
+    def word_size(self) -> int:
+        return self.text_size // 2
+
+    @property
+    def word_type(self) -> np.dtype:
+        return utilities.get_dtype(self.word_size)
+
+    @property
+    def n_text_words(self):
+        return self.text_size // self.word_size
+
+    @property
+    def n_key_words(self):
+        return self.key_size // self.word_size
 
     def encrypt_function(self, texts: np.ndarray, keys: np.ndarray) -> None:
         """Encrypt one round in-place.

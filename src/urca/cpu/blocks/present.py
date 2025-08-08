@@ -51,10 +51,6 @@ class Present(Block):
 
     def __init__(self, text_size: int = 64, key_size: int = 80) -> None:
         super().__init__(text_size, key_size)
-        self.word_type = np.uint8
-        self.word_size = 1
-        self.n_text_words = text_size
-        self.n_key_words = key_size
         self.permutation = tuple(
             (i // 4) + (self.text_size // 4) * (i % 4) for i in range(self.text_size)
         )
@@ -63,6 +59,22 @@ class Present(Block):
         self.key_bits_in_box = self.keysize_to_keybitsinsbox[key_size]
         self.counter_low = self.keysize_to_counterlow[key_size]
         self.counter_high = self.counter_low + 5
+
+    @property
+    def word_size(self) -> int:
+        return 1
+
+    @property
+    def word_type(self) -> np.dtype:
+        return np.uint8
+
+    @property
+    def n_text_words(self) -> int:
+        return self.text_size
+
+    @property
+    def n_key_words(self) -> int:
+        return self.key_size
 
     def update_keys(self, keys: np.ndarray, round_number: int) -> None:
         """Update the keys in-place.
