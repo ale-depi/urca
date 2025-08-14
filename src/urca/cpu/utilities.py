@@ -28,7 +28,7 @@ def get_dtype(word_size: int) -> np.dtype:
     """
     power_of_2 = 2 ** math.ceil(math.log2(word_size))
     if power_of_2 < 8:
-        numpy_dtype = np.dtype(f"uint8")
+        numpy_dtype = np.dtype("uint8")
     else:
         numpy_dtype = np.dtype(f"uint{power_of_2}")
 

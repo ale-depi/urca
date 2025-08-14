@@ -72,8 +72,9 @@ to consider ciphers as follows.::
 Note that the schedule and the key-schedule can be swapped.
 
 Moreover, the proposed standard from this project is to use 0 as index for the
-plaintext and the master-key and considering both the starting round and the
-number of rounds for encryption/decryption.
+plaintext and the master-key and considering both the state index and the
+number of rounds for encryption/decryption, so that the final state index will
+be the sum of state index and the number of rounds.
 
 .. toctree::
    :maxdepth: 1

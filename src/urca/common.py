@@ -1,5 +1,5 @@
-def get_bits(values: tuple[int], value_size: int) -> tuple[tuple[int], ...]:
-    """Return the bit representation of the values.
+def gen_bits(values: tuple[int], value_size: int) -> tuple[tuple[int], ...]:
+    """The bit representation of the values.
 
     Parameters
     ----------
@@ -15,9 +15,47 @@ def get_bits(values: tuple[int], value_size: int) -> tuple[tuple[int], ...]:
 
     Examples
     --------
-    >>> from urca.utilities import get_bits
-    >>> get_bits((0x6, 0xA, 0x1, 0xA), 4)
+    >>> from urca.common import gen_bits
+    >>> gen_bits((0x6, 0xA, 0x1, 0xA), 4)
     ((0, 1, 1, 0), (1, 0, 1, 0), (0, 0, 0, 1), (1, 0, 1, 0))
-
     """
     return tuple(tuple(map(int, f"{value:0{value_size}b}")) for value in values)
+
+
+def invert_sbox(sbox: tuple[int]) -> tuple[int]:
+    """The inverted S-box.
+
+    Parameters
+    ----------
+    sbox : tuple[int]
+        the S-box to be inverted
+
+    Returns
+    -------
+    tuple[int]
+        the inverted S-box
+
+    Examples
+    --------
+    >>> from urca.common import invert_sbox
+    >>> gift_sbox = (0x1, 0xA, 0x4, 0xC, 0x6, 0xF, 0x3, 0x9, 0x2, 0xD, 0xB, 0x7, 0x5, 0x0, 0x8, 0xE)
+    >>> invert_sbox(gift_sbox)
+    (13, 0, 8, 6, 2, 12, 4, 11, 14, 7, 1, 10, 3, 9, 15, 5)
+    """
+    return tuple(sbox.index(value) for value in range(len(sbox)))
+
+
+def gen_bytesbox(sbox: tuple[int]) -> tuple[int]:
+    """The byte sbox from the nibble one.
+
+    Parameters
+    ----------
+    sbox : tuple[int]
+        the nibble s-box whose byte version is required
+
+    Returns
+    -------
+    tuple[int]
+        the byte version of the sbox
+    """
+    return tuple(i << 4 ^ j for i in sbox for j in sbox)

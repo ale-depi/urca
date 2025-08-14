@@ -1,36 +1,59 @@
+from dataclasses import dataclass
+from functools import cached_property
+
 import numpy as np
 
 from urca.cpu import utilities
 from urca.cpu.block import Block
 
 
+@dataclass(frozen=True)
 class Speck(Block):
-    def __init__(
-        self,
-        text_size: int = 32,
-        key_size: int = 64,
-        alpha: int = 7,
-        beta: int = 2,
-    ) -> None:
-        super().__init__(text_size, key_size)
-        self.mask = np.sum(2 ** np.arange(self.word_size), dtype=self.word_type)
-        self.alpha, self.beta = alpha, beta
-        self.alphac, self.betac = self.word_size - self.alpha, self.word_size - self.beta
+    """The Speck block cipher.
 
-    @property
+    Parameters
+    ----------
+    text_size : int, optional, default = 32
+        the bit size of the block
+    key_size : int, optional, default = 64
+        the bit size of the key
+    alpha : int, optional, default = 7
+        the first rotation parameter
+    beta : int, optional, default = 2
+        the second rotation parameter
+    """
+
+    text_size: int = 32
+    key_size: int = 64
+    alpha: int = 7
+    beta: int = 2
+
+    @cached_property
+    def alphac(self):
+        return self.word_size - self.alpha
+
+    @cached_property
+    def betac(self):
+        return self.word_size - self.beta
+
+    @cached_property
+    def mask(self):
+        return np.sum(2 ** np.arange(self.word_size), dtype=self.word_type)
+
+    @cached_property
     def word_size(self) -> int:
         return self.text_size // 2
 
-    @property
+    @cached_property
     def word_type(self) -> np.dtype:
         return utilities.get_dtype(self.word_size)
 
-    @property
-    def n_text_words(self):
+    @cached_property
+    def n_text_words(self) -> int:
         return self.text_size // self.word_size
 
-    @property
-    def n_key_words(self):
+    @cached_property
+    def n_key_words(self) -> int:
         return self.key_size // self.word_size
 
     def encrypt_function(self, texts: np.ndarray, keys: np.ndarray) -> None:

@@ -4,6 +4,13 @@
 
 <img src="docs/source/_static/logo.svg" width="128" alt="Official logo">
 
+The URCA project aims to give the vectorized implementations of many 
+cryptographic primitives in order to investigate the statistical properties.
+Not only, since sometimes it could be useful to study a reduced version of the
+ciphers, the URCA project tries to give the generalised version of the ciphers.
+The project implements vectorised implementations both for CPUs and GPUs, using
+respectvely [NumPy](https://numpy.org/) and [CuPy](https://cupy.dev/).
+
 ## Pages
 
 [Documentation](https://ale-depi.github.io/urca/)
@@ -14,7 +21,7 @@
 
 ## Examples
 
-Importing URCA, multiple plaintext can be encrypted at once.
+Multiple plaintext can be encrypted at once.
 
 ```python
 >>> import numpy as np
@@ -29,7 +36,8 @@ array([['0xa868', '0x42f2'],
        ['0x2bb9', '0xc642']], dtype='<U6')
 ```
 
-URCA is designed to be as general as possible. The following workflow, encrypting a bunch of texts, can be applied to any cipher.
+URCA is designed to be as general as possible. The following workflow,
+encrypting a bunch of texts, can be applied to any cipher.
 
 ```python
 >>> import random
@@ -41,9 +49,9 @@ URCA is designed to be as general as possible. The following workflow, encryptin
 >>> n_text_words = cipher.n_text_words
 >>> n_key_words = cipher.n_key_words
 >>> number_of_instances = 4
->>> texts = [[random.getrandbits(word_size) for _ in range(n_text_words)] for  _ in range(number_of_instances)]
+>>> texts = [[random.getrandbits(word_size) for _ in range(n_text_words)] for _ in range(number_of_instances)]
 >>> texts = np.array(texts, dtype=word_type)
->>> keys = [[random.getrandbits(word_size) for _ in range(n_key_words)] for  _ in range(number_of_instances)]
+>>> keys = [[random.getrandbits(word_size) for _ in range(n_key_words)] for _ in range(number_of_instances)]
 >>> keys = np.array(keys, dtype=word_type)
 >>> cipher.encrypt(texts, keys, 0, 22)
 >>> np.vectorize(hex)(texts)
@@ -51,4 +59,5 @@ URCA is designed to be as general as possible. The following workflow, encryptin
 #        ['0xb30b', '0xbed8'],
 #        ['0xbb16', '0xece6'],
 #        ['0x921a', '0x6f0a']], dtype='<U6')
+# Example of output
 ```

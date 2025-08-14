@@ -13,9 +13,11 @@ class Speck(Block):
         beta: int = 2,
     ) -> None:
         super().__init__(text_size, key_size)
+        self.alpha = alpha
+        self.alphac = self.word_size - alpha
+        self.beta = beta
+        self.betac = self.word_size - beta
         self.mask = cp.sum(2 ** cp.arange(self.word_size), dtype=self.word_type)
-        self.alpha, self.beta = alpha, beta
-        self.alphac, self.betac = self.word_size - self.alpha, self.word_size - self.beta
 
     @property
     def word_size(self) -> int:
@@ -26,12 +28,26 @@ class Speck(Block):
         return utilities.get_dtype(self.word_size)
 
     @property
-    def n_text_words(self):
+    def n_text_words(self) -> int:
         return self.text_size // self.word_size
 
     @property
-    def n_key_words(self):
+    def n_key_words(self) -> int:
         return self.key_size // self.word_size
+
+    def __eq__(self, other) -> bool:
+        if not isinstance(other, Speck):
+            return False
+
+        text_size_eq = self.text_size == other.text_size
+        key_size_eq = self.key_size == other.key_size
+        alpha_eq = self.alpha == other.alpha
+        beta_eq = self.beta == other.beta
+
+        return text_size_eq and key_size_eq and alpha_eq and beta_eq
+
+    def __hash__(self) -> None:
+        return hash((self.text_size, self.key_size, self.alpha, self.beta))
 
     def encrypt_function(self, texts: cp.ndarray, keys: cp.ndarray) -> None:
         """Encrypt one round in-place.

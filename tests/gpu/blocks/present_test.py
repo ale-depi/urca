@@ -5,12 +5,12 @@ import numpy as np
 import pytest
 
 from urca.gpu.blocks.present import Present
-from urca.common import get_bits
+from urca.common import gen_bits
 
 
 @pytest.mark.parametrize(
     "text_size, key_size, n_rounds, plaintexts, keys, ciphertexts",
-    [
+    (
         (
             64,
             80,
@@ -34,15 +34,38 @@ from urca.common import get_bits
                 0x3333DCD3213210D2,
             ),
         ),
-    ],
+        (
+            64,
+            128,
+            31,
+            (
+                0x0000000000000000,
+                0x0000000000000000,
+                0xFFFFFFFFFFFFFFFF,
+                0xFFFFFFFFFFFFFFFF,
+            ),
+            (
+                0x00000000000000000000000000000000,
+                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
+                0x00000000000000000000000000000000,
+                0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF,
+            ),
+            (
+                0x02F3ABF3A99796F2,
+                0x0C1F091A1D2DD0B9,
+                0xA28E002983461D15,
+                0x1EA30E2ADC7236D6,
+            ),
+        ),
+    ),
 )
 def test_present(text_size, key_size, n_rounds, plaintexts, keys, ciphertexts):
     present = Present(text_size, key_size)
-    texts = cp.array(get_bits(plaintexts, text_size), present.word_type)
-    keys = cp.array(get_bits(keys, key_size), present.word_type)
+    texts = cp.array(gen_bits(plaintexts, text_size), present.word_type)
+    keys = cp.array(gen_bits(keys, key_size), present.word_type)
     # encryption test
     present.encrypt(texts, keys, 0, n_rounds)
-    assert np.all(cp.asnumpy(texts) == get_bits(ciphertexts, text_size))
+    assert np.all(cp.asnumpy(texts) == gen_bits(ciphertexts, text_size))
     # decryption test
     present.decrypt(texts, keys, n_rounds, n_rounds)
-    assert np.all(cp.asnumpy(texts) == get_bits(plaintexts, text_size))
+    assert np.all(cp.asnumpy(texts) == gen_bits(plaintexts, text_size))

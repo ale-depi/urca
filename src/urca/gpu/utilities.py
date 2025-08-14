@@ -28,7 +28,7 @@ def get_dtype(word_size: int) -> cp.dtype:
     """
     power_of_2 = 2 ** math.ceil(math.log2(word_size))
     if power_of_2 < 8:
-        cupy_dtype = cp.dtype(f"uint8")
+        cupy_dtype = cp.dtype("uint8")
     else:
         cupy_dtype = cp.dtype(f"uint{power_of_2}")
 
