@@ -3,7 +3,7 @@ from functools import cached_property
 
 import numpy as np
 
-from urca.cpu import utilities
+from urca import common
 from urca.cpu.block import Block
 
 
@@ -29,11 +29,11 @@ class Speck(Block):
     beta: int = 2
 
     @cached_property
-    def alphac(self):
+    def alphac(self) -> int:
         return self.word_size - self.alpha
 
     @cached_property
-    def betac(self):
+    def betac(self) -> int:
         return self.word_size - self.beta
 
     @cached_property
@@ -46,7 +46,7 @@ class Speck(Block):
 
     @cached_property
     def word_type(self) -> np.dtype:
-        return utilities.get_dtype(self.word_size)
+        return common.get_dtype(self.word_size)
 
     @cached_property
     def n_text_words(self) -> int:
@@ -84,7 +84,8 @@ class Speck(Block):
         round_number : int
             current round
         """
-        self.encrypt_function(keys[:, (self.n_key_words - 2) : self.n_key_words], round_number)
+        round_num_array = np.array([round_number], dtype=self.word_type)
+        self.encrypt_function(keys[:, (self.n_key_words - 2) : self.n_key_words], round_num_array)
         keys[:, : (self.n_key_words - 1)] = np.roll(keys[:, : (self.n_key_words - 1)], 1, axis=1)
 
     def encrypt(self, texts: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
@@ -134,7 +135,8 @@ class Speck(Block):
             current round
         """
         keys[:, : (self.n_key_words - 1)] = np.roll(keys[:, : (self.n_key_words - 1)], -1, axis=1)
-        self.decrypt_function(keys[:, (self.n_key_words - 2) : self.n_key_words], round_number)
+        round_num_array = np.array([round_number], dtype=self.word_type)
+        self.decrypt_function(keys[:, (self.n_key_words - 2) : self.n_key_words], round_num_array)
 
     def decrypt(self, texts: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         """Dencrypt in-place.

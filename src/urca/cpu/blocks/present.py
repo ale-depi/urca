@@ -8,7 +8,7 @@ from urca import constants
 from urca.cpu.block import Block
 
 
-@dataclass(frozen=True)
+@dataclass
 class Present(Block):
     """The Present block cipher.
 
@@ -24,7 +24,16 @@ class Present(Block):
 
     text_size: int = 64
     key_size: int = 80
-    sbox: tuple[int] = constants.PRESENT_SBOX
+    sbox: tuple[int, ...] = constants.PRESENT_SBOX
+    _n_rounds: int = 31
+
+    @property
+    def n_rounds(self) -> int:
+        return self._n_rounds
+
+    @n_rounds.setter
+    def n_rounds(self, n_rounds: int) -> None:
+        self._n_rounds = n_rounds
 
     @cached_property
     def npsbox(self):
@@ -68,7 +77,7 @@ class Present(Block):
 
     @cached_property
     def word_type(self) -> np.dtype:
-        return np.uint8
+        return np.dtype("uint8")
 
     @cached_property
     def n_text_words(self) -> int:
@@ -117,7 +126,8 @@ class Present(Block):
             texts[:, self.permutation] = texts[:, np.arange(self.text_size)]
             # update Key
             self.update_keys(keys, round_number)
-        texts ^= keys[:, : self.text_size]
+        if state_index + n_rounds == self._n_rounds:
+            texts ^= keys[:, : self.text_size]
 
     def revert_keys(self, keys: np.ndarray, round_number: int) -> None:
         """Revert the keys in-place.
@@ -149,7 +159,8 @@ class Present(Block):
         n_rounds : int
             number of decryption rounds
         """
-        texts ^= keys[:, : self.text_size]
+        if state_index == self._n_rounds:
+            texts ^= keys[:, : self.text_size]
         for round_number in reversed(range(state_index - n_rounds, state_index)):
             self.revert_keys(keys, round_number)
             texts[:, np.arange(self.text_size)] = texts[:, self.permutation]

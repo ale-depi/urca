@@ -1,8 +1,9 @@
 References
 ==========
 
-:ref:`B <toc-a>`
-:ref:`D <toc-b>`
+:ref:`A <toc-a>`
+:ref:`P <toc-p>`
+:ref:`S <toc-s>`
 
 .. _toc-a:
 
@@ -15,9 +16,9 @@ References
 :year: 2003
 :link: https://csrc.nist.gov/csrc/media/projects/cryptographic-standards-and-guidelines/documents/aes-development/rijndael-ammended.pdf
 
-.. _toc-b:
+.. _toc-p:
 
-**B**
+**P**
 
 .. [present-2007]
   
@@ -26,6 +27,10 @@ References
 :title: PRESENT: An Ultra-Lightweight Block Cipher
 :year: 2007
 :link: https://link.springer.com/content/pdf/10.1007/978-3-540-74735-2_31.pdf
+
+.. _toc-s:
+
+**S**
 
 .. [simon-speck-2015]
 
