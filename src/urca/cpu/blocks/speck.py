@@ -1,13 +1,9 @@
-from dataclasses import dataclass
-from functools import cached_property
-
 import numpy as np
 
 from urca import common
 from urca.cpu.block import Block
 
 
-@dataclass(frozen=True)
 class Speck(Block):
     """The Speck block cipher.
 
@@ -23,38 +19,22 @@ class Speck(Block):
         the second rotation parameter
     """
 
-    text_size: int = 32
-    key_size: int = 64
-    alpha: int = 7
-    beta: int = 2
-
-    @cached_property
-    def alphac(self) -> int:
-        return self.word_size - self.alpha
-
-    @cached_property
-    def betac(self) -> int:
-        return self.word_size - self.beta
-
-    @cached_property
-    def mask(self):
-        return np.sum(2 ** np.arange(self.word_size), dtype=self.word_type)
-
-    @cached_property
-    def word_size(self) -> int:
-        return self.text_size // 2
-
-    @cached_property
-    def word_type(self) -> np.dtype:
-        return common.get_dtype(self.word_size)
-
-    @cached_property
-    def n_text_words(self) -> int:
-        return self.text_size // self.word_size
-
-    @cached_property
-    def n_key_words(self) -> int:
-        return self.key_size // self.word_size
+    def __init__(
+        self, text_size: int = 32, key_size: int = 64, alpha: int = 7, beta: int = 2
+    ) -> None:
+        super().__init__(text_size, key_size)
+        # required
+        self.word_size = text_size // 2
+        self.word_type = common.get_dtype(self.word_size)
+        self.n_text_words = text_size // self.word_size
+        self.n_key_words = key_size // self.word_size
+        # cipher specific
+        self.alpha = alpha
+        self.alphac = self.word_size - alpha
+        self.beta = beta
+        self.betac = self.word_size - beta
+        # numpy internals
+        self.mask = np.sum(2 ** np.arange(self.word_size), dtype=self.word_type)
 
     def encrypt_function(self, texts: np.ndarray, keys: np.ndarray) -> None:
         """Encrypt one round in-place.
