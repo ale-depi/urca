@@ -5,4 +5,5 @@ Block ciphers
    :maxdepth: 1
 
    present
+   simon
    speck

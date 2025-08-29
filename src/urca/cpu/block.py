@@ -7,7 +7,7 @@ class Block(ABC):
     def __init__(self, text_size: int, key_size: int) -> None:
         self.text_size = text_size
         self.key_size = key_size
-        self.word_size: int = 1
+        self.word_size: int = 0
         self.word_type: np.dtype = np.dtype("uint8")
         self.n_text_words: int = 0
         self.n_key_words: int = 0

@@ -15,4 +15,5 @@ attributes which are mandatory.
    :maxdepth: 1
 
    present
+   simon
    speck

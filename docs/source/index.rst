@@ -30,16 +30,16 @@ One of the most common scheme for a simmetric cipher is to have a number of
 rounds repeating the same structure. This is the most important skeleton of the
 cipher.
 
-However, it is frequent to have some changes in the first round or even in the
+However, it is frequent to have some changes in the first round and/or in the
 last one. When this occurs in some design, it is important to say what is and
-what is not a round. Think about Speck [simon-speck-2015]_, PRESENT
+what is not a round. Think about Speck [simon-speck-2015]_, Present
 [present-2007]_ and AES [aes-2003]_.
 
-They represent three important cases.
+They represent three different cases.
 
 #. Speck is word oriented and has not corner cases. Its implementation is
    suitable for any word size, unless constraints on parameters are met.
-#. PRESENT is a bit oriented cipher. Note that there is a final XOR with the
+#. Present is a bit oriented cipher. Note that there is a final XOR with the
    key, meaning that the last round is different from the other ones. Moreover,
    in order to be compliant with the reference implementation, some constraints
    on the parameters should be met (e.g. the key must be 5/4 or 8/4 of the
@@ -51,10 +51,12 @@ Numbering rounds
 ^^^^^^^^^^^^^^^^
 
 Numbering rounds is another task that should be accomplished carefully and
-consistently. Think again about Speck. The key scheduling can be inserted
-starting from the second round, but this could be misleading since the state of
-the cipher is not preserved as per round. The suggestion from this project is
-to consider ciphers as follows.::
+consistently.
+
+The standard for this project is to use 0 as index for the plaintext and the
+master-key and considering both the state index and the number of rounds for
+encryption/decryption, so that the final state index will be the sum of state
+index and the number of rounds.::
 
    | ---- (registers == state) ----------------------------------- |
    | ---- text[0] (plaintext) ---- | ---- key[0] (master-key) ---- |
@@ -62,19 +64,18 @@ to consider ciphers as follows.::
             | (schedule)                                              |
             |                                                         |
             V                                                         |
-   | ---- text[1] ---------------- | ---- key[0] ----------------- |  | round[0]
+   | ---- text[1] ---------------- | ---- key[0] ----------------- |  | round
                                            |                          |
                                            | (key-schedule)           |
                                            |                          |
                                            V                          V
    | ---- text[1] ---------------- | ---- key[1] ----------------- |
 
-Note that the schedule and the key-schedule can be swapped.
+Note that the schedule and the key-schedule can be swapped or mixed, if needed.
 
-Moreover, the proposed standard from this project is to use 0 as index for the
-plaintext and the master-key and considering both the state index and the
-number of rounds for encryption/decryption, so that the final state index will
-be the sum of state index and the number of rounds.
+In this way, it is not needed an indexing for the rounds and the distance from
+plaintext and other inputs beside it is always known, since the state index
+will be the number of rounds too.
 
 .. toctree::
    :maxdepth: 1
@@ -99,4 +100,3 @@ be the sum of state index and the number of rounds.
 
    api/blocks/index
    api/common
-   api/utilities

@@ -14,6 +14,14 @@ class Simon(Block):
         the bit size of the block
     key_size : int, optional, default = 64
         the bit size of the key
+    key_rot : tuple, optional, default = (3, 1)
+        the rotation amounts in key schedule
+    rot : tuple, optional, default = (1, 8, 2)
+        the rotation amounts in round schedule
+    z_period : int, optional, default = 62
+        the period for the z sequence
+    z_sequence : int, optional, default = constants.SIMON_Z0
+        the bit sequence for key schedule
 
     """
 
@@ -28,10 +36,10 @@ class Simon(Block):
     ) -> None:
         super().__init__(text_size, key_size)
         # required
-        self.word_size = self.text_size // 2
+        self.word_size = text_size // 2
         self.word_type = common.get_dtype(self.word_size)
-        self.n_text_words = self.text_size // self.word_size
-        self.n_key_words = self.key_size // self.word_size
+        self.n_text_words = text_size // self.word_size
+        self.n_key_words = key_size // self.word_size
         # cipher specific
         self.constant = 2**self.word_size - 4
         self.key_rot = key_rot
@@ -40,9 +48,9 @@ class Simon(Block):
         self.z_sequence = z_sequence
         # numpy internals
         self.mask = np.sum(2 ** np.arange(self.word_size), dtype=self.word_type)
-        self.np_keyrot = np.array(self.key_rot, dtype=np.uint8)
+        self.np_keyrot = np.array(key_rot, dtype=np.uint8)
         self.np_keyrotc = self.word_size - self.np_keyrot
-        self.np_rot = np.array(self.rot, dtype=np.uint8)
+        self.np_rot = np.array(rot, dtype=np.uint8)
         self.np_rotc = self.word_size - self.np_rot
 
     def feistel(self, texts: np.ndarray, keys: np.ndarray) -> None:
