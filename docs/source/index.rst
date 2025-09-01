@@ -21,7 +21,7 @@ URCA tries to provide a tool that evaluates a generalised version of the cipher
 keeping the reference configurations.
 
 Note that all over the documentation, :math:`\mathbb{N}` is the set of natural
-numbers excluding :math:`0`, unless otherwise specified.
+numbers excluding 0, unless otherwise specified.
 
 First and last rounds
 ^^^^^^^^^^^^^^^^^^^^^
@@ -56,9 +56,9 @@ consistently.
 The standard for this project is to use 0 as index for the plaintext and the
 master-key and considering both the state index and the number of rounds for
 encryption/decryption, so that the final state index will be the sum of state
-index and the number of rounds.::
+index and the number of rounds. ::
 
-   | ---- (registers == state) ----------------------------------- |
+   | ---- (state = registers) ------------------------------------ |
    | ---- text[0] (plaintext) ---- | ---- key[0] (master-key) ---- |
             |                                                         |
             | (schedule)                                              |
@@ -74,8 +74,9 @@ index and the number of rounds.::
 Note that the schedule and the key-schedule can be swapped or mixed, if needed.
 
 In this way, it is not needed an indexing for the rounds and the distance from
-plaintext and other inputs beside it is always known, since the state index
-will be the number of rounds too.
+plaintext and other inputs beside it to the evolved ones is always known, since
+the state index will be the number of rounds too. Not only, the number of
+rounds between two states will be the difference of the state indices.
 
 .. toctree::
    :maxdepth: 1
