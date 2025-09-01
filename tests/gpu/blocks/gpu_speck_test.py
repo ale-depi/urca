@@ -3,7 +3,7 @@
 import cupy as cp
 import numpy as np
 import pytest
-from urca.cpu.blocks.speck import Speck
+from urca.gpu.blocks.speck import Speck
 
 
 @pytest.mark.parametrize(

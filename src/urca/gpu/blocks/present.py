@@ -13,7 +13,7 @@ class Present(Block):
         super().__init__(text_size, key_size)
         # required
         self.word_size = 1
-        self.word_type = np.dtype("uint8")
+        self.word_type = cp.dtype("uint8")
         self.n_text_words = text_size
         self.n_key_words = key_size
         # cipher specific
@@ -50,7 +50,7 @@ class Present(Block):
             texts[:, self.permutation] = texts[:, cp.arange(self.text_size)]
             # update Key
             self.update_keys(keys, round_number)
-        if state_index + n_rounds == self._n_rounds:
+        if state_index + n_rounds == self.n_rounds:
             texts ^= keys[:, : self.text_size]
 
     def revert_keys(self, keys: cp.ndarray, round_number: int) -> None:
@@ -61,7 +61,7 @@ class Present(Block):
         keys[:, :] = cp.roll(keys, self.key_rotation, axis=1)
 
     def decrypt(self, texts: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
-        if state_index == self._n_rounds:
+        if state_index == self.n_rounds:
             texts ^= keys[:, : self.text_size]
         for round_number in reversed(range(state_index - n_rounds, state_index)):
             self.revert_keys(keys, round_number)
