@@ -1,0 +1,30 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: URCA
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Alessandro
+    family-names: De Piccoli
+    email: alessandro.depiccoli@unimi.it
+    affiliation: Università degli Studi di Milano
+    orcid: 'https://orcid.org/0000-0002-6399-3164'
+identifiers:
+  - type: url
+    value: 'https://github.com/ale-depi/urca'
+    description: The URL of the repository
+repository-code: 'https://github.com/ale-depi/urca'
+url: 'https://ale-depi.github.io/urca/'
+abstract: >-
+  A standalone utility for encrypting batches of numerical
+  data, compatible with both NumPy and CuPy.
+keywords:
+  - cryptography
+  - python3
+  - cupy
+  - numpy
+license: BSD-3-Clause
