@@ -1,47 +1,52 @@
 [project]
-name = "urca"
-version = "0.1.0"
-dependencies = ["numpy"]
 authors = [
-  { name="Alessandro De Piccoli", email="alessandro.depiccoli@unimi.it" },
+    { email = "alessandro.depiccoli@unimi.it", name = "Alessandro De Piccoli" },
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Security :: Cryptography",
+]
+dependencies = [
+    "numpy",
+]
+description = "Unified Resource for Cryptographic Arrays"
+license = "BSD-3-Clause"
+license-files = [
+    "LICENSE",
 ]
 maintainers = [
-  { name="Alessandro De Piccoli", email="alessandro.depiccoli@unimi.it" },
+    { email = "alessandro.depiccoli@unimi.it", name = "Alessandro De Piccoli" },
 ]
-license = "BSD-3-Clause"
-license-files = ["LICENSE"]
-description = "Unified Resource for Cryptographic Arrays"
+name = "urca"
 readme = "README.md"
 requires-python = ">=3.12"
-classifiers = [
-  "Operating System :: OS Independent",
-  "Programming Language :: Python :: 3",
-  "Topic :: Security :: Cryptography",
-]
+version = "0.1.0"
 
 [project.optional-dependencies]
 dev = [
-  "commitizen",
-  "pytest",
-  "pytest-xdist",
-  "sphinx",
-  "sphinx-rtd-theme",
-  "ruff",
+    "commitizen",
+    "pyprojectsort",
+    "pytest",
+    "pytest-xdist",
+    "ruff",
+    "sphinx",
+    "sphinx-rtd-theme",
 ]
 
 [project.urls]
-Documentation = "https://ale-depi.github.io/urca/"
 Changelog = "https://github.com/ale-depi/urca/blob/main/CHANGELOG.md"
+Documentation = "https://ale-depi.github.io/urca/"
 Issues = "https://github.com/ale-depi/urca/issues"
 Repository = "https://github.com/ale-depi/urca"
-
-[tool.ruff]
-line-length = 100
 
 [tool.commitizen]
 name = "cz_conventional_commits"
 tag_format = "$version"
-version_scheme = "pep440"
-version_provider = "pep621"
 update_changelog_on_bump = true
+version_provider = "pep621"
+version_scheme = "pep440"
 
+[tool.ruff]
+line-length = 100

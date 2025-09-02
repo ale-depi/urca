@@ -54,7 +54,7 @@ def get_dtype(word_size: int) -> np.dtype[np.uint8]:
     """Return the minimum size dtype.
 
     This function returns the minimum size dtype object that can contain the
-    word size. This is useful for those ciphers having a non-power-of-2 word
+    word size. This is useful for those primitives having a non-power-of-2 word
     size (e.g. Speck 48/96).
 
     Parameters

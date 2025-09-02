@@ -5,5 +5,6 @@ Block ciphers
    :maxdepth: 1
 
    present
+   simeck
    simon
    speck

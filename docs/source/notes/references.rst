@@ -32,6 +32,13 @@ References
 
 **S**
 
+.. [simeck-2015]
+
+:authors: Gangqiang Yang, Bo Zhu, Valentin Suder, Mark D. Aagaard, Guang Gong
+:title: The Simeck Family of Lightweight Block Ciphers
+:year: 2015
+:linnk: https://link.springer.com/content/pdf/10.1007/978-3-662-48324-4_16.pdf
+
 .. [simon-speck-2015]
 
 :authors: Ray Beaulieu, Douglas Shors, Jason Smith, Stefan Treatman-Clark,

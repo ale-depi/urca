@@ -15,8 +15,10 @@ different, namely, it has a little parameter added.
    $ source venv/bin/activate
    (venv) $ pip install .[dev]
 
-The above commands will install additional packages such as ``pytest`` and
-``sphinx``. Both serve for different purposes.
+The above commands will install additional packages such as `pytest
+<https://docs.pytest.org/en/stable/>`_ and `Sphinx
+<https://www.sphinx-doc.org/en/master/index.html>`_. Both serve for different
+purposes.
 
 Automatic testing
 ^^^^^^^^^^^^^^^^^
@@ -25,8 +27,8 @@ The implementation of the ciphers is designed to achieve the highest possible
 level of generalization, while remaining compliant with the reference
 specifications. To ensure this compliance, automated tests must be implemented
 to verify the correctness of the provided test vectors. These tests are
-executed using ``pytest``, and all test cases must pass successfully (i.e.,
-pytest should return with a green status).
+executed using pytest, and all test cases must pass successfully (i.e., pytest
+should return with a green status).
 
 Offline Documentation
 ^^^^^^^^^^^^^^^^^^^^^
@@ -60,9 +62,9 @@ Commits
 
 * When declaring a meaningful change (e.g. important features or critical
   fixes), please use a
-  `conventional commit <https://www.conventionalcommits.org/en/v1.0.0/>`_.
+  `Conventional Commit <https://www.conventionalcommits.org/en/v1.0.0/>`_.
 * If an helper is needed, after pip installation,
-  `commitizen <https://commitizen-tools.github.io/commitizen/>`_ can be used.
+  `Commitizen <https://commitizen-tools.github.io/commitizen/>`_ can be used.
 * Recording changes without conventional commits is allowed for meaningless
   ones, but, please, follow the well established commit etiquette as follows.
 

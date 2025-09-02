@@ -12,10 +12,11 @@ To have fun with URCA, it is enough the following.
    $ source venv_name/bin/activate
    (venv_name) $ pip install urca
 
-Stay tuned
-----------
+Latest commit
+^^^^^^^^^^^^^
 
-Note that in order to have the last changes or fixes, you can do the following.
+Note that in order to have the last changes or fixes because of a commit which
+is not a release, you can do the following.
 
 .. code-block:: bash
 
@@ -27,4 +28,24 @@ Note that in order to have the last changes or fixes, you can do the following.
 
 From now on, in the virtual environment named ``venv_name`` you can call
 ``import urca``.
+
+Implementations
+---------------
+
+The package will be installed with support for both `NumPy
+<https://numpy.org>`_ (CPU) and `CuPy <https://cupy.dev>`_ (GPU). This dual
+installation does not cause any compatibility issues on systems without a GPU,
+since the two implementations are completely isolated. The isolation ensures
+coherent behavior regardless of the underlying hardware environment, while also
+enabling efficient utilization of GPU resources when available.
+
+The API documentation is `NumPy <https://numpy.org>`_ oriented, but the
+interfaces, methods, variables, and overall structure remain exactly the same
+when using the `CuPy <https://cupy.dev>`_ version. The only differences are
+found in the implementation details, since not all NumPy interfaces are
+directly available in CuPy.
+
+Selecting one implementation or the other is simply a matter of the import
+path: ``urca.cpu`` for the CPU-based implementation or ``urca.gpu`` for the
+GPU-based one.
 
