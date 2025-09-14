@@ -8,8 +8,8 @@ from urca.cpu.block import Block
 class Simeck(Block):
     def __init__(
         self,
-        text_size: int,
-        key_size: int,
+        text_size: int = 32,
+        key_size: int = 64,
         rot: tuple = (5, 1),
         z_sequence: int = constants.SIMECK_Z0,
     ) -> None:

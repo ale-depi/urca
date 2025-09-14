@@ -9,7 +9,9 @@ class Present(Block):
     keyfactor_to_keysboxsize = {10: 4, 16: 8}
     keyfactor_to_offset = {10: 0, 16: 1}
 
-    def __init__(self, text_size: int, key_size: int, sbox: tuple = constants.PRESENT_SBOX) -> None:
+    def __init__(
+        self, text_size: int = 64, key_size: int = 80, sbox: tuple = constants.PRESENT_SBOX
+    ) -> None:
         super().__init__(text_size, key_size)
         # required
         self.word_size = 1
