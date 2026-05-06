@@ -20,16 +20,18 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
+    "sphinxcontrib.bibtex",
 ]
 exclude_patterns = []
 autodoc_default_options = {
-    'members': True,
-    'module-names': True,
-    'show-inheritance': True,
-    'member-order': 'groupwise',
+    "members": True,
+    "module-names": True,
+    "show-inheritance": True,
+    "member-order": "groupwise",
 }
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
+bibtex_bibfiles = ["notes/references.bib"]
 
 
 # -- Options for HTML output -------------------------------------------------

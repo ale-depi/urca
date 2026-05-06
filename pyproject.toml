@@ -33,6 +33,7 @@ dev = [
     "ruff",
     "sphinx",
     "sphinx-rtd-theme",
+    "sphinxcontrib-bibtex",
 ]
 
 [project.urls]
