@@ -1,7 +1,6 @@
 import numpy as np
 
-from urca import common
-from urca import constants
+from urca import common, constants
 from urca.cpu.block import Block
 
 

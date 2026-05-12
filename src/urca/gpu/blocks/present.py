@@ -1,7 +1,6 @@
 import cupy as cp
 
-from urca import common
-from urca import constants
+from urca import common, constants
 from urca.gpu.block import Block
 
 
