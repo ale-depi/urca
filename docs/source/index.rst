@@ -32,8 +32,9 @@ cipher.
 
 However, it is frequent to have some changes in the first round and/or in the
 last one. When this occurs in some design, it is important to say what is and
-what is not a round. Think about Speck [simon-speck-2015]_, Present
-[present-2007]_ and AES [aes-2003]_.
+what is not a round. Think about Speck :cite:labelpar:`beaulieu2015simon`,
+Present :cite:labelpar:`bogdanov2007present` and AES
+:cite:labelpar:`daemen1999aes`.
 
 They represent three different cases.
 

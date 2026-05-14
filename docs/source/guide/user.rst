@@ -26,7 +26,7 @@ is not a release, you can do the following.
    (venv_name) $ cd urca
    (venv_name) $ pip install .
 
-From now on, in the virtual environment named ``venv_name`` you can call
+From now on, in the virtual environment named ``venv_name`` you can execute
 ``import urca``.
 
 Implementations
@@ -48,4 +48,3 @@ directly available in CuPy.
 Selecting one implementation or the other is simply a matter of the import
 path: ``urca.cpu`` for the CPU-based implementation or ``urca.gpu`` for the
 GPU-based one.
-
