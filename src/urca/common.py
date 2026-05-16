@@ -8,14 +8,14 @@ def gen_bits(values: tuple[int, ...], value_size: int) -> tuple[tuple[int, ...],
 
     Parameters
     ----------
-    values : tuple[int]
+    values : tuple[int, ...]
         integers whose bit representation is needed
     value_size : int
         the bit size for each integer
 
     Returns
     -------
-    tuple[tuple[int], ...]
+    tuple[tuple[int, ...], ...]
         a tuple whose size is (len(values), value_size)
 
     Examples
@@ -32,12 +32,12 @@ def gen_bytesbox(sbox: tuple[int, ...]) -> tuple[int, ...]:
 
     Parameters
     ----------
-    sbox : tuple[int]
+    sbox : tuple[int, ...]
         the nibble s-box whose byte version is required
 
     Returns
     -------
-    tuple[int]
+    tuple[int, ...]
         the byte version of the sbox
 
     Examples
@@ -88,12 +88,12 @@ def invert_sbox(sbox: tuple[int, ...]) -> tuple[int, ...]:
 
     Parameters
     ----------
-    sbox : tuple[int]
+    sbox : tuple[int, ...]
         the S-box to be inverted
 
     Returns
     -------
-    tuple[int]
+    tuple[int, ...]
         the inverted S-box
 
     Examples
@@ -104,3 +104,27 @@ def invert_sbox(sbox: tuple[int, ...]) -> tuple[int, ...]:
     (13, 0, 8, 6, 2, 12, 4, 11, 14, 7, 1, 10, 3, 9, 15, 5)
     """
     return tuple(sbox.index(value) for value in range(len(sbox)))
+
+
+def gen_gift_permutation(size: int) -> tuple[int, ...]:
+    """The base permutation of the GIFT cipher.
+
+    Parameters
+    ----------
+    size : int
+        the size of the permutation to be generated
+
+    Returns
+    -------
+    tuple[int, ...]
+        the GIFT permutation
+
+    Examples
+    --------
+    >>> from urca.common import gen_gift_permutation
+    >>> gen_gift_permutation(16)
+    (0, 5, 10, 15, 12, 1, 6, 11, 8, 13, 2, 7, 4, 9, 14, 3)
+    """
+    return tuple(
+        4 * (i // 16) + size // 4 * ((3 * (i % 16 // 4) + i) % 4) + (i % 4) for i in range(size)
+    )

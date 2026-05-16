@@ -87,6 +87,7 @@ Implemented ciphers
    :maxdepth: 1
 
    baksheesh
+   gift
    present
    simeck
    simon

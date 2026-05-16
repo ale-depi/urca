@@ -5,16 +5,6 @@ from urca.cpu.block import Block
 
 
 class Baksheesh(Block):
-    """The Baksheesh block cipher.
-
-    Parameters
-    ----------
-    sbox : tuple[int, ...], optional, default = `original`
-        the s-box for the cipher
-    permutation : numpy.array, optional, default = `original`
-        the permutation for the cipher
-    """
-
     # fmt: off
     permutation = cp.array(
         (
