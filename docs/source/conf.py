@@ -8,7 +8,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = "URCA"
-copyright = "(c) 2025 Alessandro De Piccoli"
+copyright = "2025-%Y Alessandro De Piccoli"
 author = "Alessandro De Piccoli"
 release = "0.1.0"
 
