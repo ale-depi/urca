@@ -1,3 +1,14 @@
+## 1.1.0 (2026-07-08)
+
+### Feat
+
+- **Gift**: add GIFT block cipher
+- **Baksheesh**: add BAKSHEESH block cipher
+
+### Fix
+
+- add default optional in ciphers
+
 ## 1.0.0 (2025-09-02)
 
 ### BREAKING CHANGE
