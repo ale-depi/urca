@@ -1,5 +1,4 @@
 Simon
 =====
 
-.. automodule:: urca.cpu.blocks.simon
-
+.. automodule:: urca.cpu.blockciphers.simon

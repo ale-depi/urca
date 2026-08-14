@@ -1,4 +1,4 @@
 Present
 =======
 
-.. automodule:: urca.cpu.blocks.present
+.. automodule:: urca.cpu.blockciphers.present

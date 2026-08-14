@@ -1,5 +1,4 @@
 Simeck
 ======
 
-.. automodule:: urca.cpu.blocks.simeck
-
+.. automodule:: urca.cpu.blockciphers.simeck

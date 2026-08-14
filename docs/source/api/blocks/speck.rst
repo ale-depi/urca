@@ -1,4 +1,4 @@
 Speck
 =====
 
-.. automodule:: urca.cpu.blocks.speck
+.. automodule:: urca.cpu.blockciphers.speck
