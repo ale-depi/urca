@@ -1,10 +1,10 @@
 import cupy as cp
 
 from urca import common
-from urca.cpu.block import Block
+from urca.gpu.blockcipher import BlockCipher
 
 
-class Baksheesh(Block):
+class Baksheesh(BlockCipher):
     # fmt: off
     permutation = cp.array(
         (

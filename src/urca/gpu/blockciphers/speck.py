@@ -1,10 +1,10 @@
 import cupy as cp
 
 from urca import common
-from urca.gpu.block import Block
+from urca.gpu.blockcipher import BlockCipher
 
 
-class Speck(Block):
+class Speck(BlockCipher):
     def __init__(
         self, text_size: int = 32, key_size: int = 64, alpha: int = 7, beta: int = 2
     ) -> None:

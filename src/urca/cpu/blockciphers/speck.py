@@ -1,10 +1,10 @@
 import numpy as np
 
 from urca import common
-from urca.cpu.block import Block
+from urca.cpu.blockcipher import BlockCipher
 
 
-class Speck(Block):
+class Speck(BlockCipher):
     """The Speck block cipher.
 
     Parameters

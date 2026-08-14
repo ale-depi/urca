@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from urca.common import gen_bits
-from urca.gpu.blocks.baksheesh import Baksheesh
+from urca.gpu.blockciphers.baksheesh import Baksheesh
 
 
 @pytest.mark.parametrize(

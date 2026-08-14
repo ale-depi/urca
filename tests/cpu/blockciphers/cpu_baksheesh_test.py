@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 
 from urca.common import gen_bits
-from urca.cpu.blocks.baksheesh import Baksheesh
+from urca.cpu.blockciphers.baksheesh import Baksheesh
 
 
 @pytest.mark.parametrize(

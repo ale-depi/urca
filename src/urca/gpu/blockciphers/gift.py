@@ -1,10 +1,10 @@
 import cupy as cp
 
 from urca import common
-from urca.cpu.block import Block
+from urca.gpu.blockcipher import BlockCipher
 
 
-class Gift(Block):
+class Gift(BlockCipher):
     # fmt: off
     key_permutation = (
         110, 111, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 116, 117, 118,

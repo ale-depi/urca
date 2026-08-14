@@ -2,7 +2,8 @@
 
 import numpy as np
 import pytest
-from urca.cpu.blocks.speck import Speck
+
+from urca.cpu.blockciphers.speck import Speck
 
 
 @pytest.mark.parametrize(

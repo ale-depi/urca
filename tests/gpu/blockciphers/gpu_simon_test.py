@@ -3,8 +3,9 @@
 import cupy as cp
 import numpy as np
 import pytest
+
 from urca import constants
-from urca.cpu.blocks.simon import Simon
+from urca.gpu.blockciphers.simon import Simon
 
 
 @pytest.mark.parametrize(

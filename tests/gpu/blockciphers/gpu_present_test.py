@@ -4,8 +4,8 @@ import cupy as cp
 import numpy as np
 import pytest
 
-from urca.gpu.blocks.present import Present
 from urca.common import gen_bits
+from urca.gpu.blockciphers.present import Present
 
 
 @pytest.mark.parametrize(

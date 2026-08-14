@@ -26,7 +26,7 @@ Multiple plaintext can be encrypted at once.
 
 ```python
 >>> import numpy as np
->>> from urca.cpu.blocks.speck import Speck
+>>> from urca.cpu.blockciphers.speck import Speck
 >>> speck = Speck(32, 64)
 >>> word_type = speck.word_type
 >>> texts = np.array([[0x6574, 0x694C], [0x0000, 0x0000]], dtype=word_type)
@@ -43,7 +43,7 @@ encrypting a bunch of texts, can be applied to any primitive.
 ```python
 >>> import random
 >>> import numpy as np
->>> from urca.cpu.blocks.speck import Speck
+>>> from urca.cpu.blockciphers.speck import Speck
 >>> primitive = Speck(32, 64)
 >>> word_size = primitive.word_size
 >>> word_type = primitive.word_type

@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from urca.common import gen_bits
-from urca.gpu.blocks.gift import Gift
+from urca.gpu.blockciphers.gift import Gift
 
 
 @pytest.mark.parametrize(

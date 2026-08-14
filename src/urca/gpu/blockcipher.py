@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import cupy as cp
 
 
-class Block(ABC):
+class BlockCipher(ABC):
     def __init__(self, text_size: int, key_size: int) -> None:
         self.text_size = text_size
         self.key_size = key_size

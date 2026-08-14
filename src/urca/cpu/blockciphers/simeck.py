@@ -1,10 +1,10 @@
 import numpy as np
 
 from urca import common, constants
-from urca.cpu.block import Block
+from urca.cpu.blockcipher import BlockCipher
 
 
-class Simeck(Block):
+class Simeck(BlockCipher):
     """
     The Simeck block cipher.
 

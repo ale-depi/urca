@@ -61,7 +61,7 @@ workflow, encrypting a bunch of texts, can be applied to any block cipher.
 
    >>> import random
    >>> import numpy as np
-   >>> from urca.cpu.blocks.speck import Speck
+   >>> from urca.cpu.blockciphers.speck import Speck
    >>> cipher = Speck(32, 64)
    >>> word_size = cipher.word_size
    >>> word_type = cipher.word_type

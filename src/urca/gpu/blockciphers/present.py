@@ -1,10 +1,10 @@
 import cupy as cp
 
 from urca import common, constants
-from urca.gpu.block import Block
+from urca.gpu.blockcipher import BlockCipher
 
 
-class Present(Block):
+class Present(BlockCipher):
     keyfactor_to_keysboxsize = {10: 4, 16: 8}
     keyfactor_to_offset = {10: 0, 16: 1}
 

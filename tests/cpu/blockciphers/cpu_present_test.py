@@ -3,8 +3,8 @@
 import numpy as np
 import pytest
 
-from urca.cpu.blocks.present import Present
 from urca.common import gen_bits
+from urca.cpu.blockciphers.present import Present
 
 
 @pytest.mark.parametrize(

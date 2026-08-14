@@ -3,8 +3,9 @@
 import cupy as cp
 import numpy as np
 import pytest
+
 from urca import constants
-from urca.cpu.blocks.simeck import Simeck
+from urca.gpu.blockciphers.simeck import Simeck
 
 
 @pytest.mark.parametrize(

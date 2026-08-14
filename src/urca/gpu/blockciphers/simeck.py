@@ -1,10 +1,10 @@
 import cupy as cp
 
 from urca import common, constants
-from urca.cpu.block import Block
+from urca.gpu.blockcipher import BlockCipher
 
 
-class Simeck(Block):
+class Simeck(BlockCipher):
     def __init__(
         self,
         text_size: int = 32,

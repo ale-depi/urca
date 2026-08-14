@@ -1,10 +1,10 @@
 import numpy as np
 
 from urca import common, constants
-from urca.cpu.block import Block
+from urca.cpu.blockcipher import BlockCipher
 
 
-class Present(Block):
+class Present(BlockCipher):
     """The Present block cipher.
 
     Parameters
