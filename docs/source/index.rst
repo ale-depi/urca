@@ -12,7 +12,7 @@ Motivation
 ----------
 
 When talking about simmetric ciphers, it could be handy having a resource that
-efficiently encrypt and decrypt batch of texts. Moreover, if a change of sizes
+efficiently encrypt and decrypt batch of blocks. Moreover, if a change of sizes
 is needed, there are many constraints to take into account in order to have the
 standard implementation working correctly.
 

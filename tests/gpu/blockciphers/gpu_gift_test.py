@@ -9,7 +9,7 @@ from urca.gpu.blockciphers.gift import Gift
 
 
 @pytest.mark.parametrize(
-    "text_size, key_size, n_rounds, plaintexts, keys, ciphertexts",
+    "block_size, key_size, n_rounds, plaintexts, keys, ciphertexts",
     (
         (
             64,
@@ -45,13 +45,13 @@ from urca.gpu.blockciphers.gift import Gift
         ),
     ),
 )
-def test_gift(text_size, key_size, n_rounds, plaintexts, keys, ciphertexts):
-    gift = Gift(text_size, key_size)
-    texts = cp.array(gen_bits(plaintexts, text_size), gift.word_type)
+def test_gift(block_size, key_size, n_rounds, plaintexts, keys, ciphertexts):
+    gift = Gift(block_size, key_size)
+    blocks = cp.array(gen_bits(plaintexts, block_size), gift.word_type)
     keys = cp.array(gen_bits(keys, key_size), gift.word_type)
     # encryption test
-    gift.encrypt(texts, keys, 0, n_rounds)
-    assert np.all(cp.asnumpy(texts) == gen_bits(ciphertexts, text_size))
+    gift.encrypt(blocks, keys, 0, n_rounds)
+    assert np.all(cp.asnumpy(blocks) == gen_bits(ciphertexts, block_size))
     # decryption test
-    gift.decrypt(texts, keys, n_rounds, n_rounds)
-    assert np.all(cp.asnumpy(texts) == gen_bits(plaintexts, text_size))
+    gift.decrypt(blocks, keys, n_rounds, n_rounds)
+    assert np.all(cp.asnumpy(blocks) == gen_bits(plaintexts, block_size))

@@ -29,16 +29,16 @@ Multiple plaintext can be encrypted at once.
 >>> from urca.cpu.blockciphers.speck import Speck
 >>> speck = Speck(32, 64)
 >>> word_type = speck.word_type
->>> texts = np.array([[0x6574, 0x694C], [0x0000, 0x0000]], dtype=word_type)
+>>> blocks = np.array([[0x6574, 0x694C], [0x0000, 0x0000]], dtype=word_type)
 >>> keys = np.array([[0x1918, 0x1110, 0x0908, 0x0100], [0x0000, 0x0000, 0x0000, 0x0000]], dtype=word_type)
->>> speck.encrypt(texts, keys, 0, 22)
->>> np.vectorize(hex)(texts)
+>>> speck.encrypt(blocks, keys, 0, 22)
+>>> np.vectorize(hex)(blocks)
 array([['0xa868', '0x42f2'],
        ['0x2bb9', '0xc642']], dtype='<U6')
 ```
 
 URCA is designed to be as general as possible. The following workflow,
-encrypting a bunch of texts, can be applied to any primitive.
+encrypting a bunch of blocks, can be applied to any primitive.
 
 ```python
 >>> import random
@@ -47,15 +47,15 @@ encrypting a bunch of texts, can be applied to any primitive.
 >>> primitive = Speck(32, 64)
 >>> word_size = primitive.word_size
 >>> word_type = primitive.word_type
->>> n_text_words = primitive.n_text_words
+>>> n_block_words = primitive.n_block_words
 >>> n_key_words = primitive.n_key_words
 >>> n_instances = 4
->>> texts = [[random.getrandbits(word_size) for _ in range(n_text_words)] for _ in range(n_instances)]
->>> texts = np.array(texts, dtype=word_type)
+>>> blocks = [[random.getrandbits(word_size) for _ in range(n_block_words)] for _ in range(n_instances)]
+>>> blocks = np.array(blocks, dtype=word_type)
 >>> keys = [[random.getrandbits(word_size) for _ in range(n_key_words)] for _ in range(n_instances)]
 >>> keys = np.array(keys, dtype=word_type)
->>> primitive.encrypt(texts, keys, 0, 22)
->>> np.vectorize(hex)(texts)
+>>> primitive.encrypt(blocks, keys, 0, 22)
+>>> np.vectorize(hex)(blocks)
 # array([['0x3068', '0xc0bf'],
 #        ['0xb30b', '0xbed8'],
 #        ['0xbb16', '0xece6'],

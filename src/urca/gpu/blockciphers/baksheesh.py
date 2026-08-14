@@ -63,16 +63,16 @@ class Baksheesh(BlockCipher):
 
     def __init__(
         self,
-        text_size: int = 128,
+        block_size: int = 128,
         key_size: int = 128,
         sbox: tuple[int, ...] = sbox,
         permutation: cp.ndarray = permutation,
     ) -> None:
-        super().__init__(text_size, key_size)
+        super().__init__(block_size, key_size)
         # required
         self.word_size = 1
         self.word_type = cp.dtype("uint8")
-        self.n_text_words = text_size
+        self.n_block_words = block_size
         self.n_key_words = key_size
         # cipher specific
         self.n_rounds = 35
@@ -83,34 +83,34 @@ class Baksheesh(BlockCipher):
         self.cp_sbox = cp.array(common.gen_bytesbox(sbox), dtype=self.word_type)
         self.cp_inversesbox = cp.array(common.gen_bytesbox(self.inverse_sbox), dtype=self.word_type)
 
-    def encrypt(self, texts: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
+    def encrypt(self, blocks: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
         if state_index == 0:
-            texts ^= keys
+            blocks ^= keys
         for round_number in range(state_index, state_index + n_rounds):
             # update keys
             keys[:, :] = cp.roll(keys, 1, axis=1)
             # SubCells
-            sbox_output = cp.unpackbits(self.cp_sbox[cp.packbits(texts)])
-            texts[:, :] = sbox_output.reshape(-1, self.text_size)
+            sbox_output = cp.unpackbits(self.cp_sbox[cp.packbits(blocks)])
+            blocks[:, :] = sbox_output.reshape(-1, self.block_size)
             # PermBits
-            texts[:, self.permutation] = texts[:, cp.arange(self.text_size)]
+            blocks[:, self.permutation] = blocks[:, cp.arange(self.block_size)]
             # AddConstants
-            texts[:, self.constant_positions] ^= self.constants[round_number]
+            blocks[:, self.constant_positions] ^= self.constants[round_number]
             # AddRoundKey
-            texts ^= keys
+            blocks ^= keys
 
-    def decrypt(self, texts: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
+    def decrypt(self, blocks: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
         for round_number in reversed(range(state_index - n_rounds, state_index)):
             # AddRoundKey
-            texts ^= keys
+            blocks ^= keys
             # AddConstants
-            texts[:, self.constant_positions] ^= self.constants[round_number]
+            blocks[:, self.constant_positions] ^= self.constants[round_number]
             # PermBits
-            texts[:, cp.arange(self.text_size)] = texts[:, self.permutation]
+            blocks[:, cp.arange(self.block_size)] = blocks[:, self.permutation]
             # SubCells
-            sbox_output = cp.unpackbits(self.cp_inversesbox[cp.packbits(texts)])
-            texts[:, :] = sbox_output.reshape(-1, self.text_size)
+            sbox_output = cp.unpackbits(self.cp_inversesbox[cp.packbits(blocks)])
+            blocks[:, :] = sbox_output.reshape(-1, self.block_size)
             # revert keys
             keys[:, :] = cp.roll(keys, -1, axis=1)
         if state_index - n_rounds == 0:
-            texts ^= keys
+            blocks ^= keys

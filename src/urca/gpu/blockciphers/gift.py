@@ -62,11 +62,11 @@ class Gift(BlockCipher):
         dtype=cp.uint8,
     )
     constant_positions = (0, -24, -20, -16, -12, -8, -4)
-    textsize_to_positions = {
+    blocksize_to_positions = {
         64: tuple(range(2, 64, 4)) + tuple(range(3, 64, 4)),
         128: tuple(range(1, 128, 4)) + tuple(range(2, 128, 4)),
     }
-    textsize_to_rkpositions = {
+    blocksize_to_rkpositions = {
         64: tuple(range(96, 112)) + tuple(range(112, 128)),
         128: tuple(range(32, 64)) + tuple(range(96, 128)),
     }
@@ -74,46 +74,46 @@ class Gift(BlockCipher):
 
     def __init__(
         self,
-        text_size: int = 64,
+        block_size: int = 64,
         key_size: int = 128,
         sbox: tuple[int, ...] = sbox,
     ) -> None:
-        super().__init__(text_size, key_size)
+        super().__init__(block_size, key_size)
         # required
         self.word_size = 1
         self.word_type = cp.dtype("uint8")
-        self.n_text_words = text_size
+        self.n_block_words = block_size
         self.n_key_words = key_size
         # cipher specific
         self.sbox = sbox
         self.inverse_sbox = common.invert_sbox(sbox)
         self.permutation = tuple(
-            text_size - 1 - p for p in reversed(common.gen_gift_permutation(text_size))
+            block_size - 1 - p for p in reversed(common.gen_gift_permutation(block_size))
         )
-        self.positions = self.textsize_to_positions[text_size]
-        self.round_key_positions = self.textsize_to_rkpositions[text_size]
+        self.positions = self.blocksize_to_positions[block_size]
+        self.round_key_positions = self.blocksize_to_rkpositions[block_size]
         # numpy internals
         self.cp_sbox = cp.array(common.gen_bytesbox(sbox), dtype=self.word_type)
         self.cp_inversesbox = cp.array(common.gen_bytesbox(self.inverse_sbox), dtype=self.word_type)
 
-    def encrypt(self, texts: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
+    def encrypt(self, blocks: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
         for round_number in range(state_index, state_index + n_rounds):
             # SubCells
-            sbox_output = cp.unpackbits(self.cp_sbox[cp.packbits(texts)])
-            texts[:, :] = sbox_output.reshape(-1, self.text_size)
+            sbox_output = cp.unpackbits(self.cp_sbox[cp.packbits(blocks)])
+            blocks[:, :] = sbox_output.reshape(-1, self.block_size)
             # PermBits
-            texts[:, self.permutation] = texts[:, :]
+            blocks[:, self.permutation] = blocks[:, :]
             # AddRoundKey
-            texts[:, self.positions] ^= keys[:, self.round_key_positions]
-            texts[:, self.constant_positions] ^= self.constants[round_number]
+            blocks[:, self.positions] ^= keys[:, self.round_key_positions]
+            blocks[:, self.constant_positions] ^= self.constants[round_number]
             # update Key
             keys[:, :] = keys[:, self.key_permutation]
 
-    def decrypt(self, texts: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
+    def decrypt(self, blocks: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
         for round_number in reversed(range(state_index - n_rounds, state_index)):
             keys[:, self.key_permutation] = keys[:, :]
-            texts[:, self.positions] ^= keys[:, self.round_key_positions]
-            texts[:, self.constant_positions] ^= self.constants[round_number]
-            texts[:, :] = texts[:, self.permutation]
-            sbox_output = cp.unpackbits(self.cp_inversesbox[cp.packbits(texts)])
-            texts[:, :] = sbox_output.reshape(-1, self.text_size)
+            blocks[:, self.positions] ^= keys[:, self.round_key_positions]
+            blocks[:, self.constant_positions] ^= self.constants[round_number]
+            blocks[:, :] = blocks[:, self.permutation]
+            sbox_output = cp.unpackbits(self.cp_inversesbox[cp.packbits(blocks)])
+            blocks[:, :] = sbox_output.reshape(-1, self.block_size)

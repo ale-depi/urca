@@ -9,7 +9,7 @@ class Baksheesh(BlockCipher):
 
     Parameters
     ----------
-    text_size : int, optional, default = 128
+    block_size : int, optional, default = 128
         the bit size of the block
     key_size : int, optional, default = 128
         the bit size of the key
@@ -77,16 +77,16 @@ class Baksheesh(BlockCipher):
 
     def __init__(
         self,
-        text_size: int = 128,
+        block_size: int = 128,
         key_size: int = 128,
         sbox: tuple[int, ...] = sbox,
         permutation: np.ndarray = permutation,
     ) -> None:
-        super().__init__(text_size, key_size)
+        super().__init__(block_size, key_size)
         # required
         self.word_size = 1
         self.word_type = np.dtype("uint8")
-        self.n_text_words = text_size
+        self.n_block_words = block_size
         self.n_key_words = key_size
         # cipher specific
         self.n_rounds = 35
@@ -97,13 +97,13 @@ class Baksheesh(BlockCipher):
         self.np_sbox = np.array(common.gen_bytesbox(sbox), dtype=self.word_type)
         self.np_inversesbox = np.array(common.gen_bytesbox(self.inverse_sbox), dtype=self.word_type)
 
-    def encrypt(self, texts: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
+    def encrypt(self, blocks: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         """Encrypt in-place.
 
         Parameters
         ----------
-        texts : np.ndarray
-            plaintexts
+        blocks : np.ndarray
+            blocks
         keys : np.ndarray
             keys
         state_index : int
@@ -112,26 +112,26 @@ class Baksheesh(BlockCipher):
             number of encryption rounds
         """
         if state_index == 0:
-            texts ^= keys
+            blocks ^= keys
         for round_number in range(state_index, state_index + n_rounds):
             # update keys
             keys[:, :] = np.roll(keys, 1, axis=1)
             # SubCells
-            texts[:, :] = np.unpackbits(self.np_sbox[np.packbits(texts, axis=1)], axis=1)
+            blocks[:, :] = np.unpackbits(self.np_sbox[np.packbits(blocks, axis=1)], axis=1)
             # PermBits
-            texts[:, self.permutation] = texts[:, np.arange(self.text_size)]
+            blocks[:, self.permutation] = blocks[:, np.arange(self.block_size)]
             # AddConstants
-            texts[:, self.constant_positions] ^= self.constants[round_number]
+            blocks[:, self.constant_positions] ^= self.constants[round_number]
             # AddRoundKey
-            texts ^= keys
+            blocks ^= keys
 
-    def decrypt(self, texts: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
+    def decrypt(self, blocks: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         """Dencrypt in-place.
 
         Parameters
         ----------
-        texts : np.ndarray
-            ciphertexts
+        blocks : np.ndarray
+            blocks
         keys : np.ndarray
             keys
         state_index : int
@@ -141,14 +141,14 @@ class Baksheesh(BlockCipher):
         """
         for round_number in reversed(range(state_index - n_rounds, state_index)):
             # AddRoundKey
-            texts ^= keys
+            blocks ^= keys
             # AddConstants
-            texts[:, self.constant_positions] ^= self.constants[round_number]
+            blocks[:, self.constant_positions] ^= self.constants[round_number]
             # PermBits
-            texts[:, np.arange(self.text_size)] = texts[:, self.permutation]
+            blocks[:, np.arange(self.block_size)] = blocks[:, self.permutation]
             # SubCells
-            texts[:, :] = np.unpackbits(self.np_inversesbox[np.packbits(texts, axis=1)], axis=1)
+            blocks[:, :] = np.unpackbits(self.np_inversesbox[np.packbits(blocks, axis=1)], axis=1)
             # revert keys
             keys[:, :] = np.roll(keys, -1, axis=1)
         if state_index - n_rounds == 0:
-            texts ^= keys
+            blocks ^= keys

@@ -9,7 +9,7 @@ from urca.gpu.blockciphers.baksheesh import Baksheesh
 
 
 @pytest.mark.parametrize(
-    "text_size, key_size, n_rounds, plaintexts, keys, ciphertexts",
+    "block_size, key_size, n_rounds, plaintexts, keys, ciphertexts",
     (
         (
             128,
@@ -48,13 +48,13 @@ from urca.gpu.blockciphers.baksheesh import Baksheesh
         ),
     ),
 )
-def test_baksheesh(text_size, key_size, n_rounds, plaintexts, keys, ciphertexts):
-    baksheesh = Baksheesh(text_size, key_size)
-    texts = cp.array(gen_bits(plaintexts, text_size), baksheesh.word_type)
+def test_baksheesh(block_size, key_size, n_rounds, plaintexts, keys, ciphertexts):
+    baksheesh = Baksheesh(block_size, key_size)
+    blocks = cp.array(gen_bits(plaintexts, block_size), baksheesh.word_type)
     keys = cp.array(gen_bits(keys, key_size), baksheesh.word_type)
     # encryption test
-    baksheesh.encrypt(texts, keys, 0, n_rounds)
-    assert np.all(cp.asnumpy(texts) == gen_bits(ciphertexts, text_size))
+    baksheesh.encrypt(blocks, keys, 0, n_rounds)
+    assert np.all(cp.asnumpy(blocks) == gen_bits(ciphertexts, block_size))
     # decryption test
-    baksheesh.decrypt(texts, keys, n_rounds, n_rounds)
-    assert np.all(cp.asnumpy(texts) == gen_bits(plaintexts, text_size))
+    baksheesh.decrypt(blocks, keys, n_rounds, n_rounds)
+    assert np.all(cp.asnumpy(blocks) == gen_bits(plaintexts, block_size))

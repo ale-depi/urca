@@ -9,7 +9,7 @@ from urca.gpu.blockciphers.simon import Simon
 
 
 @pytest.mark.parametrize(
-    "text_size, key_size, n_rounds, z_sequence, plaintexts, keys, ciphertexts",
+    "block_size, key_size, n_rounds, z_sequence, plaintexts, keys, ciphertexts",
     (
         (
             32,
@@ -103,13 +103,13 @@ from urca.gpu.blockciphers.simon import Simon
         ),
     ),
 )
-def test_simon(text_size, key_size, n_rounds, z_sequence, plaintexts, keys, ciphertexts):
-    simon = Simon(text_size, key_size, z_sequence=z_sequence)
-    texts = cp.array(plaintexts, simon.word_type)
+def test_simon(block_size, key_size, n_rounds, z_sequence, plaintexts, keys, ciphertexts):
+    simon = Simon(block_size, key_size, z_sequence=z_sequence)
+    blocks = cp.array(plaintexts, simon.word_type)
     keys = cp.array(keys, simon.word_type)
     # encryption test
-    simon.encrypt(texts, keys, 0, n_rounds)
-    assert np.all(cp.asnumpy(texts) == ciphertexts)
+    simon.encrypt(blocks, keys, 0, n_rounds)
+    assert np.all(cp.asnumpy(blocks) == ciphertexts)
     # decryption test
-    simon.decrypt(texts, keys, n_rounds, n_rounds)
-    assert np.all(cp.asnumpy(texts) == plaintexts)
+    simon.decrypt(blocks, keys, n_rounds, n_rounds)
+    assert np.all(cp.asnumpy(blocks) == plaintexts)

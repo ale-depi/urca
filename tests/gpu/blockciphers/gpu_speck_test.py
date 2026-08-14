@@ -8,7 +8,7 @@ from urca.gpu.blockciphers.speck import Speck
 
 
 @pytest.mark.parametrize(
-    "text_size, key_size, n_rounds, alpha, beta, plaintexts, keys, ciphertexts",
+    "block_size, key_size, n_rounds, alpha, beta, plaintexts, keys, ciphertexts",
     (
         (
             32,
@@ -112,13 +112,13 @@ from urca.gpu.blockciphers.speck import Speck
         ),
     ),
 )
-def test_speck(text_size, key_size, n_rounds, alpha, beta, plaintexts, keys, ciphertexts):
-    speck = Speck(text_size, key_size, alpha, beta)
-    texts = cp.array(plaintexts, speck.word_type)
+def test_speck(block_size, key_size, n_rounds, alpha, beta, plaintexts, keys, ciphertexts):
+    speck = Speck(block_size, key_size, alpha, beta)
+    blocks = cp.array(plaintexts, speck.word_type)
     keys = cp.array(keys, speck.word_type)
     # encryption test
-    speck.encrypt(texts, keys, 0, n_rounds)
-    assert np.all(cp.asnumpy(texts) == ciphertexts)
+    speck.encrypt(blocks, keys, 0, n_rounds)
+    assert np.all(cp.asnumpy(blocks) == ciphertexts)
     # decryption test
-    speck.decrypt(texts, keys, n_rounds, n_rounds)
-    assert np.all(cp.asnumpy(texts) == plaintexts)
+    speck.decrypt(blocks, keys, n_rounds, n_rounds)
+    assert np.all(cp.asnumpy(blocks) == plaintexts)

@@ -9,7 +9,7 @@ from urca.gpu.blockciphers.simeck import Simeck
 
 
 @pytest.mark.parametrize(
-    "text_size, key_size, n_rounds, z_sequence, plaintexts, keys, ciphertexts",
+    "block_size, key_size, n_rounds, z_sequence, plaintexts, keys, ciphertexts",
     (
         (
             32,
@@ -40,13 +40,13 @@ from urca.gpu.blockciphers.simeck import Simeck
         ),
     ),
 )
-def test_simeck(text_size, key_size, n_rounds, z_sequence, plaintexts, keys, ciphertexts):
-    simeck = Simeck(text_size, key_size, z_sequence=z_sequence)
-    texts = cp.array(plaintexts, simeck.word_type)
+def test_simeck(block_size, key_size, n_rounds, z_sequence, plaintexts, keys, ciphertexts):
+    simeck = Simeck(block_size, key_size, z_sequence=z_sequence)
+    blocks = cp.array(plaintexts, simeck.word_type)
     keys = cp.array(keys, simeck.word_type)
     # encryption test
-    simeck.encrypt(texts, keys, 0, n_rounds)
-    assert np.all(cp.asnumpy(texts) == ciphertexts)
+    simeck.encrypt(blocks, keys, 0, n_rounds)
+    assert np.all(cp.asnumpy(blocks) == ciphertexts)
     # decryption test
-    simeck.decrypt(texts, keys, n_rounds, n_rounds)
-    assert np.all(cp.asnumpy(texts) == plaintexts)
+    simeck.decrypt(blocks, keys, n_rounds, n_rounds)
+    assert np.all(cp.asnumpy(blocks) == plaintexts)
