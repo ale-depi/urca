@@ -27,12 +27,12 @@ version = "1.1.0"
 [project.optional-dependencies]
 dev = [
     "commitizen",
+    "furo",
     "pyprojectsort",
     "pytest",
     "pytest-xdist",
     "ruff",
     "sphinx",
-    "sphinx-rtd-theme",
     "sphinxcontrib-bibtex",
 ]
 

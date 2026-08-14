@@ -1,8 +1,6 @@
 Developer
 =========
 
-.. contents:: Table of contents
-
 Installation
 ------------
 
