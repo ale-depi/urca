@@ -92,7 +92,7 @@ rounds between two states will be the difference of the state indices.
    :caption: Notes
    :hidden:
 
-   notes/blocks/index
+   notes/blockciphers/index
    notes/references
 
 .. toctree::
@@ -100,5 +100,5 @@ rounds between two states will be the difference of the state indices.
    :caption: API
    :hidden:
 
-   api/blocks/index
+   api/blockciphers/index
    api/common
