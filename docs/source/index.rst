@@ -11,17 +11,20 @@ Pages for the Unified Resource for Cryptographic Arrays project.
 Motivation
 ----------
 
-When talking about simmetric ciphers, it could be handy having a resource that
-efficiently encrypt and decrypt batch of blocks. Moreover, if a change of sizes
-is needed, there are many constraints to take into account in order to have the
-standard implementation working correctly.
+Modern cryptographic research and experimentation increasingly require the
+generation and processing of large volumes of data. In this context, an
+efficient Python implementation for the batch encryption and decryption of
+cipher blocks can be particularly valuable, both for experimental evaluation
+and for the development and validation of cryptographic algorithms.
 
-The URCA project tries to provide a standard for the above tasks. Moreover,
-URCA tries to provide a tool that evaluates a generalised version of the cipher
-keeping the reference configurations.
-
-Note that all over the documentation, :math:`\mathbb{N}` is the set of natural
-numbers excluding 0, unless otherwise specified.
+The URCA project is intended to provide a unified framework for these tasks.
+Its primary objective is to offer efficient implementations capable of
+processing batches of blocks while preserving the reference configurations of
+the considered ciphers. At the same time, whenever this is technically
+feasible, the implementations are designed to be as general as possible,
+allowing variations in parameters such as block size, key size, and other
+cipher-specific configurations without requiring substantial modifications to
+the underlying implementation.
 
 First and last rounds
 ^^^^^^^^^^^^^^^^^^^^^
@@ -41,10 +44,7 @@ They represent three different cases.
 #. Speck is word oriented and has not corner cases. Its implementation is
    suitable for any word size, unless constraints on parameters are met.
 #. Present is a bit oriented cipher. Note that there is a final XOR with the
-   key, meaning that the last round is different from the other ones. Moreover,
-   in order to be compliant with the reference implementation, some constraints
-   on the parameters should be met (e.g. the key must be 5/4 or 8/4 of the
-   text).
+   key, meaning that the last round is different from the other ones.
 #. AES has a declared different last round. It lacks of the mixcolumn
    operation.
 
