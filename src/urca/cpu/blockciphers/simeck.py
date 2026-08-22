@@ -74,9 +74,9 @@ class Simeck(BlockCipher):
         """
         for round_number in range(state_index, state_index + n_rounds):
             self.feistel(blocks, keys[:, 3])
-            blocks[:, :] = np.roll(blocks, 1, axis=1)
+            blocks[:, :] = np.concatenate((blocks[:, 1:], blocks[:, :1]), axis=1)
             self.feistel(keys[:, 2:4], self.constant ^ ((self.z_sequence >> round_number) & 1))
-            keys[:, :] = np.roll(keys, 1, axis=1)
+            keys[:, :] = np.concatenate((keys[:, -1:], keys[:, :-1]), axis=1)
 
     def decrypt(self, blocks: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         """Decrypt in-place.
@@ -93,7 +93,7 @@ class Simeck(BlockCipher):
             number of decryption rounds
         """
         for round_number in reversed(range(state_index - n_rounds, state_index)):
-            keys[:, :] = np.roll(keys, -1, axis=1)
+            keys[:, :] = np.concatenate((keys[:, 1:], keys[:, :1]), axis=1)
             self.feistel(keys[:, 2:4], self.constant ^ ((self.z_sequence >> round_number) & 1))
-            blocks[:, :] = np.roll(blocks, 1, axis=1)
+            blocks[:, :] = np.concatenate((blocks[:, 1:], blocks[:, :1]), axis=1)
             self.feistel(blocks, keys[:, 3])

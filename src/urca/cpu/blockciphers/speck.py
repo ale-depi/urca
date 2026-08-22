@@ -65,8 +65,8 @@ class Speck(BlockCipher):
             current round
         """
         round_num_array = np.array([round_number], dtype=self.word_type)
-        self.encrypt_function(keys[:, (self.n_key_words - 2) : self.n_key_words], round_num_array)
-        keys[:, : (self.n_key_words - 1)] = np.roll(keys[:, : (self.n_key_words - 1)], 1, axis=1)
+        self.encrypt_function(keys[:, -2:], round_num_array)
+        keys[:, :-1] = np.concatenate((keys[:, -2:-1], keys[:, :-2]), axis=1)
 
     def encrypt(self, blocks: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         """Encrypt in-place.
@@ -114,9 +114,9 @@ class Speck(BlockCipher):
         round_number : int
             current round
         """
-        keys[:, : (self.n_key_words - 1)] = np.roll(keys[:, : (self.n_key_words - 1)], -1, axis=1)
+        keys[:, :-1] = np.concatenate((keys[:, 1:-1], keys[:, :1]), axis=1)
         round_num_array = np.array([round_number], dtype=self.word_type)
-        self.decrypt_function(keys[:, (self.n_key_words - 2) : self.n_key_words], round_num_array)
+        self.decrypt_function(keys[:, -2:], round_num_array)
 
     def decrypt(self, blocks: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         """Dencrypt in-place.

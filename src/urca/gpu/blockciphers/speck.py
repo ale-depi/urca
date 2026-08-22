@@ -33,8 +33,8 @@ class Speck(BlockCipher):
 
     def update_keys(self, keys: cp.ndarray, round_number: int) -> None:
         round_num_array = cp.array([round_number], dtype=self.word_type)
-        self.encrypt_function(keys[:, (self.n_key_words - 2) : self.n_key_words], round_num_array)
-        keys[:, : (self.n_key_words - 1)] = cp.roll(keys[:, : (self.n_key_words - 1)], 1, axis=1)
+        self.encrypt_function(keys[:, -2:], round_num_array)
+        keys[:, :-1] = cp.concatenate((keys[:, -2:-1], keys[:, :-2]), axis=1)
 
     def encrypt(self, blocks: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
         for round_number in range(state_index, state_index + n_rounds):
@@ -51,9 +51,9 @@ class Speck(BlockCipher):
         blocks[:, 0] &= self.mask
 
     def revert_keys(self, keys: cp.ndarray, round_number: int) -> None:
-        keys[:, : (self.n_key_words - 1)] = cp.roll(keys[:, : (self.n_key_words - 1)], -1, axis=1)
+        keys[:, :-1] = cp.concatenate((keys[:, 1:-1], keys[:, :1]), axis=1)
         round_num_array = cp.array([round_number], dtype=self.word_type)
-        self.decrypt_function(keys[:, (self.n_key_words - 2) : self.n_key_words], round_num_array)
+        self.decrypt_function(keys[:, -2:], round_num_array)
 
     def decrypt(self, blocks: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
         for round_number in reversed(range(state_index - n_rounds, state_index)):

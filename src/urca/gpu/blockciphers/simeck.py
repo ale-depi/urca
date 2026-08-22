@@ -36,13 +36,13 @@ class Simeck(BlockCipher):
     def encrypt(self, blocks: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
         for round_number in range(state_index, state_index + n_rounds):
             self.feistel(blocks, keys[:, 3])
-            blocks[:, :] = cp.roll(blocks, 1, axis=1)
+            blocks[:, :] = cp.concatenate((blocks[:, 1:], blocks[:, :1]), axis=1)
             self.feistel(keys[:, 2:4], self.constant ^ ((self.z_sequence >> round_number) & 1))
-            keys[:, :] = cp.roll(keys, 1, axis=1)
+            keys[:, :] = cp.concatenate((keys[:, -1:], keys[:, :-1]), axis=1)
 
     def decrypt(self, blocks: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
         for round_number in reversed(range(state_index - n_rounds, state_index)):
-            keys[:, :] = cp.roll(keys, -1, axis=1)
+            keys[:, :] = cp.concatenate((keys[:, 1:], keys[:, :1]), axis=1)
             self.feistel(keys[:, 2:4], self.constant ^ ((self.z_sequence >> round_number) & 1))
-            blocks[:, :] = cp.roll(blocks, 1, axis=1)
+            blocks[:, :] = cp.concatenate((blocks[:, 1:], blocks[:, :1]), axis=1)
             self.feistel(blocks, keys[:, 3])

@@ -66,7 +66,7 @@ class Simon(BlockCipher):
         new_words &= self.mask
         new_words ^= keys[:, -1]
         new_words ^= self.constant ^ ((self.z_sequence >> (round_number % self.z_period)) & 1)
-        keys[:, :] = cp.roll(keys, 1, axis=1)
+        keys[:, :] = cp.concatenate((keys[:, -1:], keys[:, :-1]), axis=1)
         keys[:, 0] = new_words
 
     def encrypt(self, blocks: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
@@ -85,7 +85,7 @@ class Simon(BlockCipher):
         """
         for round_number in range(state_index, state_index + n_rounds):
             self.feistel(blocks, keys[:, -1])
-            blocks[:, :] = cp.roll(blocks, 1, axis=1)
+            blocks[:, :] = cp.concatenate((blocks[:, 1:], blocks[:, :1]), axis=1)
             self.update_keys(keys, round_number)
 
     def revert_keys(self, keys: cp.ndarray, round_number: int) -> None:
@@ -106,7 +106,7 @@ class Simon(BlockCipher):
         new_words &= self.mask
         new_words ^= self.constant ^ ((self.z_sequence >> (round_number % self.z_period)) & 1)
         keys[:, 0] ^= new_words
-        keys[:, :] = cp.roll(keys, -1, axis=1)
+        keys[:, :] = cp.concatenate((keys[:, 1:], keys[:, :1]), axis=1)
 
     def decrypt(self, blocks: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
         """Decrypt in-place.
@@ -124,5 +124,5 @@ class Simon(BlockCipher):
         """
         for round_number in reversed(range(state_index - n_rounds, state_index)):
             self.revert_keys(keys, round_number)
-            blocks[:, :] = cp.roll(blocks, 1, axis=1)
+            blocks[:, :] = cp.concatenate((blocks[:, 1:], blocks[:, :1]), axis=1)
             self.feistel(blocks, keys[:, -1])

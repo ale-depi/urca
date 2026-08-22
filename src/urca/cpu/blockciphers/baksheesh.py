@@ -115,7 +115,7 @@ class Baksheesh(BlockCipher):
             blocks ^= keys
         for round_number in range(state_index, state_index + n_rounds):
             # update keys
-            keys[:, :] = np.roll(keys, 1, axis=1)
+            keys[:, :] = np.concatenate((keys[:, -1:], keys[:, :-1]), axis=1)
             # SubCells
             blocks[:, :] = np.unpackbits(self.np_sbox[np.packbits(blocks, axis=1)], axis=1)
             # PermBits
@@ -149,6 +149,6 @@ class Baksheesh(BlockCipher):
             # SubCells
             blocks[:, :] = np.unpackbits(self.np_inversesbox[np.packbits(blocks, axis=1)], axis=1)
             # revert keys
-            keys[:, :] = np.roll(keys, -1, axis=1)
+            keys[:, :] = np.concatenate((keys[:, 1:], keys[:, :1]), axis=1)
         if state_index - n_rounds == 0:
             blocks ^= keys

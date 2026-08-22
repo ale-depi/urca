@@ -34,7 +34,7 @@ class Present(BlockCipher):
         self.cp_inversesbox = cp.array(common.gen_bytesbox(self.inverse_sbox), dtype=self.word_type)
 
     def update_keys(self, keys: cp.ndarray, round_number: int) -> None:
-        keys[:, :] = cp.roll(keys, -self.key_rotation, axis=1)
+        keys[:, :] = cp.concatenate((keys[:, self.key_rotation:], keys[:, :self.key_rotation]), axis=1)
         sbox_output = cp.unpackbits(self.cp_sbox[cp.packbits(keys[:, :8])]).reshape(-1, 8)
         keys[:, : self.key_sbox_size] = sbox_output[:, : self.key_sbox_size]
         round_counter = cp.array(tuple(map(int, f"{round_number + 1:05b}")), dtype=self.word_type)
@@ -59,7 +59,7 @@ class Present(BlockCipher):
         keys[:, self.counter_low : self.counter_high] ^= round_counter
         sbox_output = cp.unpackbits(self.cp_inversesbox[cp.packbits(keys[:, :8])]).reshape(-1, 8)
         keys[:, : self.key_sbox_size] = sbox_output[:, : self.key_sbox_size]
-        keys[:, :] = cp.roll(keys, self.key_rotation, axis=1)
+        keys[:, :] = cp.concatenate((keys[:, -self.key_rotation:], keys[:, :-self.key_rotation]), axis=1)
 
     def decrypt(self, blocks: cp.ndarray, keys: cp.ndarray, state_index: int, n_rounds: int) -> None:
         if state_index == self.n_rounds:

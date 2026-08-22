@@ -55,7 +55,7 @@ class Present(BlockCipher):
         round_number : int
             current round
         """
-        keys[:, :] = np.roll(keys, -self.key_rotation, axis=1)
+        keys[:, :] = np.concatenate((keys[:, self.key_rotation:], keys[:, :self.key_rotation]), axis=1)
         sbox_output = np.unpackbits(self.np_sbox[np.packbits(keys[:, :8], axis=1)], axis=1)
         keys[:, : self.key_sbox_size] = sbox_output[:, : self.key_sbox_size]
         round_counter = np.array(tuple(map(int, f"{round_number + 1:05b}")), dtype=self.word_type)
@@ -101,7 +101,7 @@ class Present(BlockCipher):
         keys[:, self.counter_low : self.counter_high] ^= round_counter
         sbox_output = np.unpackbits(self.np_inversesbox[np.packbits(keys[:, :8], axis=1)], axis=1)
         keys[:, : self.key_sbox_size] = sbox_output[:, : self.key_sbox_size]
-        keys[:, :] = np.roll(keys, self.key_rotation, axis=1)
+        keys[:, :] = np.concatenate((keys[:, -self.key_rotation:], keys[:, :-self.key_rotation]), axis=1)
 
     def decrypt(self, blocks: np.ndarray, keys: np.ndarray, state_index: int, n_rounds: int) -> None:
         """Dencrypt in-place.

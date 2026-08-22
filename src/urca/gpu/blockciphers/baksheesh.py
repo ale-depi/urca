@@ -88,7 +88,7 @@ class Baksheesh(BlockCipher):
             blocks ^= keys
         for round_number in range(state_index, state_index + n_rounds):
             # update keys
-            keys[:, :] = cp.roll(keys, 1, axis=1)
+            keys[:, :] = cp.concatenate((keys[:, -1:], keys[:, :-1]), axis=1)
             # SubCells
             sbox_output = cp.unpackbits(self.cp_sbox[cp.packbits(blocks)])
             blocks[:, :] = sbox_output.reshape(-1, self.block_size)
@@ -111,6 +111,6 @@ class Baksheesh(BlockCipher):
             sbox_output = cp.unpackbits(self.cp_inversesbox[cp.packbits(blocks)])
             blocks[:, :] = sbox_output.reshape(-1, self.block_size)
             # revert keys
-            keys[:, :] = cp.roll(keys, -1, axis=1)
+            keys[:, :] = cp.concatenate((keys[:, 1:], keys[:, :1]), axis=1)
         if state_index - n_rounds == 0:
             blocks ^= keys
